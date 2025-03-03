@@ -1,0 +1,2678 @@
+---
+title: "Assignment 1"
+author: "Jana Brzak, Bojana Chen, Aleksandra Iskrzynska, Sarah Rebecca Meyer"
+date: "2024-2025"
+output: 
+  pdf_document:
+    toc: true
+    latex_engine: xelatex
+  word_document:
+    toc: true
+header-includes:
+  - \usepackage{fvextra}
+  - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+  - \fvset{breaklines=true}
+subtitle: "Regression Task"
+---
+
+```{r setup, include=FALSE}
+# Load necessary packages
+if (!require(dplyr)) {
+  install.packages("dplyr")
+  library(dplyr)
+}
+
+if (!require(tidyr)) {
+  install.packages("tidyr")
+  library(tidyr)
+}
+
+if (!require(readr)) {
+  install.packages("readr")
+  library(readr)
+}
+
+if (!require(ggplot2)) {
+  install.packages("ggplot2")
+  library(ggplot2)
+}
+
+if (!require(reshape2)) {
+  install.packages("reshape2")
+  library(reshape2)
+}
+
+if (!require(e1071)) {
+  install.packages("e1071")
+  library(e1071)
+}
+
+if (!require(caret)) {
+  install.packages("caret")
+  library(caret)
+}
+
+if (!require(lubridate)) {
+  install.packages("lubridate")
+  library(lubridate)
+}
+
+if (!require(caTools)) {
+  install.packages("caTools")
+  library(caTools)
+}
+
+if (!require(reshape2)) {
+  install.packages("reshape2")
+  library(reshape2)
+}
+
+if (!require(VIM)) {
+  install.packages("VIM")
+  library(VIM)
+}
+
+if (!require(usethis)) {
+  install.packages("usethis")
+  library(usethis)
+}
+
+if (!require(xgboost)) {
+  install.packages("xgboost")
+  library(xgboost)
+}
+
+if (!require(ggfortify)) {
+  install.packages("ggfortify")
+  library(ggfortify)
+}
+
+if (!require(randomForest)) {
+  install.packages("randomForest")
+  library(randomForest)
+}
+
+if (!require(ranger)){
+  install.packages("ranger")
+  library(ranger)
+}
+
+if (!require(mlr3)){
+  install.packages("mlr3")
+  library(mlr3)
+}
+
+if (!require(mlr3tuning)){
+  install.packages("mlr3tuning")
+  library(mlr3tuning)
+}
+
+if (!require(mlr3learners)){
+  install.packages("mlr3learners")
+  library(mlr3learners)
+}
+
+if (!require(paradox)){
+  install.packages("paradox")
+  library(paradox)
+}
+
+if (!require(ParBayesianOptimization)){
+  install.packages("ParBayesianOptimization")
+  library(ParBayesianOptimization)
+}
+
+if (!require(car)){
+  install.packages("car")
+  library(car)
+}
+
+if (!require(glmnet)){
+  install.packages("glmnet")
+  library(glmnet)
+}
+```
+
+# Abstract
+The object of this assignment was to apply regression techniques to Lending Club Loan Data. This dataset contains information about personal loans. The goal was to develop and evaluate models to predict the interest rate (“int_rate”) based on features containing borrower and loan characteristics.  
+
+The main tasks were extensive data preprocessing, exploratory data analysis, feature engineering, and the application of multiple regression techniques to achieve the best possible prediction model. 
+
+Features included in this dataset are described in the chapter Data Exploration / Individual Variables. To be used in Machine Learning, this dataset required substantial cleaning, such as addressing missing values, handling outliers, and transforming variables for optimal model performance. The objective was to optimize a regression model that minimizes the mean squared error (MSE), both on the provided public dataset as well as the unseen secret dataset. 
+
+Since we knew that we would need to perform all changes made to the data for the secret data in the reality_check.R file, we collected them in several data preprocessing pipeline steps so it would be easy to copy the code into the reality check file later on, instead of performing the changes individually.  
+
+In the process of this data science assignment for the course "Data Science" at the FHNW Olten, we implemented and iterated over the following types of machine learning models: 
+
+- Linear Regression: we tried by addressing multicollinearity and feature selection, achieving a baseline MSE 
+- Polynomial Regression: limited improvement in prediction accuracy 
+- Ridge and Lasso Regression: Regularization methods reduced overfitting and improved generalization, with Ridge regression outperforming Lasso in MSE 
+- Decision Trees and Random Forest: Provided insights into feature importance 
+- XGBoost: achieved the best performance out of all models we tried. We further lowered the test MSE and improved the model parameters through hyperparameter tuning (via Bayesian optimization and cross-validation), ultimately achieving the best performance with an MSE of 8.01 and RMSE of 2.83. 
+
+The final XGBoost model was trained on the complete dataset using the optimized hyperparameters from the Bayesian optimization and a nrounds of 502. We then exported this model so it can be used in the reality_check.R file for evaluation on the secret dataset.  
+
+# Lessons Learned
+This is a short list of all the lessons we learned during this project:
+
+- Importance of Data Preprocessing: We saw how missing values, outliers and multicollinearity issues influenced model performance of all models. 
+- Domain Knowledge: We learned how crucial it is in understanding the importance of predictors. Without it, it’s difficult to grasp which features truly matter, leading to potential missteps in preprocessing. Recognizing the context and relationships behind the data ensures more informed decisions, improving both the process and the final model performance. We include some examples below to showcase the importance of domain knowledge in the project. 
+  - dti: According to the Consumer Financial Protection Bureau (CFPB), a U.S. government agency, the mortgage debt for homeowners should ideally not exceed 28-35% or less. We had instances of 9999 (which are strictly impossible!) for the dti, as well as dtis of 380 or 672 (which are extremely unlikely; considering values above 60% are already considered very high!). Using domain knowledge to make sure values in a column make sense for that feature is very important to not introduce erraneous data points into the model. 
+  - term: This feature was the strongest feature in all models we tried, showing a very high feature importance amongst all models. This led us to wonder whether we could be dealing with target leakage here. To make sure we wouldn’t include any features not available at the time of application, we researched what this feature included and found that this feature was part of the application, so it would in fact be available for the prediction and is not target leakage. 
+- Model Selection: We got familiar with trying to select a model for a simulated "real-world scenario", comparing and weighing benefits of different models like simplicity / interpretability from simpler models vs. superior accuracy from advanced models like XGBoost. 
+- Hyperparameter Tuning / Cross-Validation: Techniques like Bayesian optimization and cross-validation improved the performance of our models and helped aim for good generalization and a hopefully robust model. 
+- Feature Engineering: Some feature engineering / transformations really changed the performance of the models. 
+- Computational Resources: These were sometimes a bit of a bottleneck - kNN imputation ran for a whole day and the Bayesian Optimizer even several days. We learned that training complex models on large datasets, especially with cross-validation or hyperparameter tuning requires enough computational power as well as an efficient memory management. 
+- Enhancing Regression Models: We learned how to extend linear regression models to capture nonlinear relationships by including squared terms. This approach allowed us to fit more complex patterns, like parabolas, while still leveraging the simplicity and interpretability of linear regression models.
+- One-Hot Encoding Features: It is important when doing One-Hot Encoding on the training dataset, to save all possible values and one-hot-encode the test dataset using these, so the amount of features will be the same in the end. If we have a rare feature in the training dataset, chances are, it might not be represented in the test dataset. If this is the case, the matrix will be missing a feature and the model will not run through. This of course makes sense when we consider the later usage in production: if we had just one instance we would like to get a prediction for, we wouldn't know other possible values for the One-Hot Encoding, so we would need to pass them to the Encoder so the model could predict for our case.
+- Feature Order: we learned that the order of features is important for XGBoost models, so we ordered our features alphabetically before creating our model and did the same in the reality check file to make sure the model could run through.
+
+ 
+
+
+# Data Loading & Initial Analysis
+
+In the first step, we import the data from the CSV file:
+```{r data, results = "hide"}
+# Importing CSV file into R
+getwd()
+data <- read.csv("..//data/LCdata.csv", header = TRUE, sep = ";")
+```
+
+
+Then we have an outlook over the data:
+```{r, results = "hide"}
+head(data)
+```
+
+
+The dataset has 798641 rows and 72 columns / variables.
+```{r, results = "hide"}
+summary(data)
+```
+
+# Data Preprocessing
+## Feature Selection
+
+From the assignment, we know the following variables will not be available for all instances and should thus be excluded from the model, as they could be considered leakage:
+
+- collection_recovery_fee
+- installment
+- funded_amnt
+- funded_amnt_inv
+- issue_d
+- last_pymnt_amnt
+- last_pymnt_d
+- loan_status
+- next_pymnt_d
+- out_prncp
+- out_prncp_inv
+- pymnt_plan
+- recoveries
+- total_pymnt
+- total_pymnt_inv
+- total_rec_int
+- total_rec_late_fee
+- total_rec_prncp
+
+## Manual Feature Selection
+We also manually selected features to drop.
+
+We try to check whether there are columns that contain one unique value, so we can drop them because they do not give us any relevant information.
+```{r}
+# columns with one unique value
+constant_columns <- data %>%
+  select(where(~ n_distinct(.) == 1)) %>%
+  colnames()
+
+constant_columns
+```
+
+
+Based on the outlook on the data and the previous analyses, we have the following list of columns we select to drop:
+
+- policy_code: this column features just one value, so no additional info
+- desc: free text description -> not useful unless NLP would be performed
+- id: just identifier
+- member_id: just identifier
+- title
+- url
+- zip_code: too fine-granular information -> we discussed whether to drop the zip code or the state. One option would be to cluster the samples based on the first three digits of the zip code. That could provide more in-depth information compared to the state (as a state can have different socio-economic regions, while the region of a zip code is usually less heterogenous), but it would increase the dimensionality of the dataset by a lot, which is why we decide to keep the state variable for now and would come back to this if the model performance is not as intended.
+
+For the moment, we delete the following columns as well:
+
+- title
+- emp_title
+These could be used in combination with NLP or LLM to feature engineer additional features, but for the time being we drop them.
+
+## Identifying Missing Values
+```{r}
+missing.values <- is.na(data)
+na.count.per.column <- colSums(missing.values)[colSums(missing.values) > 0]
+
+result.df <- data.frame("NA" = na.count.per.column)
+print(result.df)
+```
+
+Here we can see that we have 32 variables that contain missing values, and that some of the variables contain a very high number of missing values.
+To solve this, we decide a threshold to drop columns if they contain more than a certain amount of NAs. We include Step 3 in the data preparation pipeline to exclude all the columns where the NAs are more than the defined threshold.
+
+We also remove rows where there are more than 40% NAs.
+
+```{r}
+# defining the 40% thresholt
+threshold <- 0.4 * ncol(data)
+
+# Find rows where the number of NAs exceeds the threshold
+rows_with_many_NAs <- rowSums(is.na(data)) > threshold
+num_rows_with_many_NAs <- sum(rows_with_many_NAs)
+
+# Print the result
+cat("Number of rows with more than 40% NAs:", num_rows_with_many_NAs)
+```
+
+
+## Data Preparation Pipeline
+This is the data preparation pipeline, that includes all the previously defined steps. We collected all the data preparation that we intended to perform here, so it would later be easy to create the Reality Check file.
+```{r}
+data_clean <- data %>%
+  # Step 1: Exclude the listed columns from assignment information
+  dplyr::select(-collection_recovery_fee,
+         -installment,
+         -funded_amnt,
+         -funded_amnt_inv,
+         -issue_d,
+         -last_pymnt_amnt,
+         -last_pymnt_d,
+         -loan_status,
+         -next_pymnt_d,
+         -out_prncp,
+         -out_prncp_inv,
+         -pymnt_plan,
+         -recoveries,
+         -total_pymnt,
+         -total_pymnt_inv,
+         -total_rec_int,
+         -total_rec_late_fee,
+         -total_rec_prncp) %>% 
+  # Step 2: Exclude manually selected columns
+  dplyr::select(-policy_code, 
+         -title,
+         -emp_title,
+         -desc,
+         -id,
+         -member_id,
+         -url,
+         -zip_code) %>%
+  # Step 3: Remove columns with more than 50% NA values
+  dplyr::select(where(~ sum(is.na(.)) / nrow(data) <= 0.5))%>%
+  # Step 4: Remove rows with more than 40% NA values
+  dplyr::filter(rowSums(is.na(.)) / ncol(.) <= 0.4)
+
+# Output the number of columns before and after cleaning for verification
+cat("Number of columns before cleaning:", ncol(data), "\n")
+cat("Number of columns after cleaning:", ncol(data_clean), "\n")
+cat("Number of rows before cleaning:", nrow(data), "\n")
+cat("Number of rows after cleaning:", nrow(data_clean), "\n")
+```
+
+In the next step, we have a look at the cleaned data:
+```{r, results = "hide"}
+summary(data_clean)
+str(data_clean)
+```
+
+
+We have an initial outlook over the histograms for all numeric columns.
+```{r}
+numeric_columns <- data_clean %>% select(where(is.numeric))
+
+# Gather data to long format for easy plotting
+numeric_long <- gather(numeric_columns, key = "variable", value = "value")
+
+# Plot histograms using ggplot2
+ggplot(numeric_long, aes(x = value)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  facet_wrap(~variable, scales = "free") +
+  theme_minimal() +
+  labs(x = "Value", y = "Frequency", title = "Histograms of All Numeric Columns")
+
+```
+
+# Data Exploration & Wrangling
+In the next step, we look at the data and the variables we have left after the initial cleaning. We look closer at the distributions, as well as the data type. For the non-numeric variables, we decide whether to use Label Encoding or One Hot Encoding for each. We use Label Encoding for features that have an ordinal relationship so we can conserve it, while we use One Hot Encoding in all other cases to prevent introducing an artificial ordinal relationship.
+Another option would have been to convert the categorical columns to factors, which most regression models can handle directly, but we decided against it because we also want to try an XGBoost, which expects numeric input, so we would need to do encoding anyway.
+All steps mentioned in the "Individual Variables" section are performed in the "Data Preparation Pipeline 2" step. (This is also so the Reality Check file was easier to create.)
+
+## Individual Variables
+### loan_amnt
+In the first step, we have a look at the distribution of the loan amount.
+```{r}
+hist(data_clean$loan_amnt)
+```
+
+
+Here, we identify, that the largest bin of 35'000 is larger than the adjacent bins. This is likely because this is the maximum loan amount possible. We verify this by having a look at the summary statistics as well as a boxplot.
+```{r}
+summary(data_clean$loan_amnt)
+```
+
+```{r}
+# Create a boxplot for the loan_amnt variable
+boxplot(data_clean$loan_amnt, 
+        main = "Boxplot of Loan Amounts", 
+        ylab = "Loan Amount", 
+        col = "lightgray", 
+        border = "black", 
+        horizontal = FALSE,   # Vertical boxplot (default)
+        notch = TRUE)         # Add notches to show confidence interval around the median
+
+```
+
+### Term
+Term is a non-numerical variable, so we use a bar plot to visualise the distribution.
+```{r}
+# Create a bar plot for a categorical variable
+barplot(table(data_clean$term), 
+        main = "Bar Plot of Category Variable", 
+        xlab = "Categories", 
+        ylab = "Frequency", 
+        col = "lightblue", 
+        border = "black")
+
+```
+
+Because this is a non-numeric variable, we will need to encode it. Since they have an ordinal nature and there are only two categories, we will label-encode them. 
+
+### int_rate
+This is our target variable.
+```{r}
+hist(data_clean$int_rate)
+```
+```{r}
+summary(data_clean$int_rate)
+```
+
+
+### emp_length
+This column features the duration the applicant has worked at the current employer.
+```{r}
+par(mar = c(7, 5, 4, 2) + 0.5)
+
+# Reorder the table so "10+ years" is last
+emp_length_table <- table(data_clean$emp_length)
+emp_length_table <- emp_length_table[order(names(emp_length_table))]  # Order alphabetically or change logic as needed
+emp_length_table <- emp_length_table[c(names(emp_length_table)[names(emp_length_table) != "10+ years"], "10+ years")]  # Move "10+ years" to last
+
+# Create the barplot
+bar_midpoints <- barplot(emp_length_table, 
+                         main = "Bar Plot of Category Variable", 
+                         xlab = "Categories", 
+                         ylab = "Frequency", 
+                         col = "lightblue", 
+                         border = "black", 
+                         ylim = c(0, max(table(data_clean$emp_length)) * 1.1),
+                         las = 2)  # Rotate the labels to be vertical
+
+# Add labels on top of each bar
+text(x = bar_midpoints, 
+     y = emp_length_table,  # Position the labels at the height of the bars
+     labels = emp_length_table,  # Use the frequency values as labels
+     pos = 3,  # Position above the bars
+     cex = 0.8,  # Size of the labels
+     col = "black")  # Color of the labels
+```
+
+As we can see, most of the applicants have worked at the employer for over 10 years. Some n/a values are present, likely due to people being unemployed.
+
+### Home Ownership
+```{r}
+# Create a bar plot for a categorical variable
+barplot_data <- barplot(table(data_clean$home_ownership), 
+        main = "Bar Plot of Category Variable", 
+        xlab = "Categories", 
+        ylab = "Frequency", 
+        col = "lightblue", 
+        border = "black",
+        ylim = c(0, max(table(data_clean$home_ownership)) * 1.2))
+
+text(barplot_data, 
+     table(data_clean$home_ownership), 
+     labels = table(data_clean$home_ownership), 
+     pos = 3)
+```
+
+Given this distribution, it might make sense to handle the "ANY", "NONE" and "OTHER" values, as they are very infrequent. It might be better for the model to just have the 3 values "MORTGAGE", "OWN" and "RENT".
+There are several ways this could be handled:
+- dropping the rows: might be the easiest way, but could lose information if these rare cases are especially interesting
+- setting them to NA and then impute them
+
+To get a clearer view, we compare the summary statistics for the target variable for each of the values to the whole data set, to see if it's very different.
+```{r, results = "hide"}
+# Summary statistics for 'int_rate' for the whole dataset
+summary_whole_int_rate <- summary(data_clean$int_rate)
+
+# Summary statistics for 'int_rate' for 'ANY'
+summary_any_int_rate <- summary(subset(data_clean, home_ownership == "ANY")$int_rate)
+
+# Summary statistics for 'int_rate' for 'NONE'
+summary_none_int_rate <- summary(subset(data_clean, home_ownership == "NONE")$int_rate)
+
+# Summary statistics for 'int_rate' for 'OTHER'
+summary_other_int_rate <- summary(subset(data_clean, home_ownership == "OTHER")$int_rate)
+
+# Display the summary statistics for 'int_rate' comparison
+cat("Summary Statistics for 'int_rate' for the Whole Dataset:\n")
+print(summary_whole_int_rate)
+
+cat("\nSummary Statistics for 'int_rate' for 'ANY':\n")
+print(summary_any_int_rate)
+
+cat("\nSummary Statistics for 'int_rate' for 'NONE':\n")
+print(summary_none_int_rate)
+
+cat("\nSummary Statistics for 'int_rate' for 'OTHER':\n")
+print(summary_other_int_rate)
+```
+
+Ultimately, we check the correlation between the outcome variable and the different values for the home ownership variable.
+```{r}
+ggplot(data = data_clean, mapping = aes(x=int_rate,y=home_ownership))+geom_boxplot()
+```
+
+Because the frequency is so low and the difference in the int_rate is not significantly different, we change the instances containing these values to the mode of the column which is "MORTGAGE". Then, the column will be One-Hot encoded.
+
+
+### annual_inc
+This column contains the annual income. We first visualise a histogram
+```{r}
+hist(data_clean$annual_inc)
+```
+
+From what we see in the histogram, it is likely that there are some (extreme) outliers in this column. To investigate this, we create a boxplot.
+```{r}
+# Create a boxplot for the loan_amnt variable
+boxplot(data_clean$annual_inc, 
+        main = "Boxplot of Annual Incomes", 
+        ylab = "Loan Amount", 
+        col = "lightgray", 
+        border = "black", 
+        horizontal = FALSE,   # Vertical boxplot (default)
+        notch = TRUE)         # Add notches to show confidence interval around the median
+
+```
+
+As we can see from both the histogram and the boxplot, the distribution of the annual income is very wide, and that there are quite many outliers towards the high end of the distribution. For this it could be interesting to calculate skewness and kurtosis.
+```{r}
+# Calculate skewness
+skewness_value <- skewness(data_clean$annual_inc, na.rm = TRUE)
+
+# Calculate kurtosis
+kurtosis_value <- kurtosis(data_clean$annual_inc, na.rm = TRUE)
+
+# Print the results
+cat("Skewness:", skewness_value, "\n")
+cat("Kurtosis:", kurtosis_value, "\n")
+
+```
+
+As expected, both skewness and kurtosis are quite high.    
+
+Now we visualise the distribution of the annual income plotted against the target variable int_rate.
+```{r}
+plot(data_clean$int_rate, data_clean$annual_inc)
+```
+
+### verification_status
+This feature contains information on whether an application is verified or not. 
+```{r}
+barplot(table(data_clean$verification_status), 
+        main = "Bar Plot of Category Variable", 
+        xlab = "Categories", 
+        ylab = "Frequency", 
+        col = "lightblue", 
+        border = "black")
+```
+
+There are three values in this column. Typically, in financial data of this kind, "Source verified" tends to carry more weight than just "Verified", because it involves external or third-party checks. With this in mind, we suggest Label-Encoding, with 0 being not verified, 1 being verified and 2 being source verified.
+
+### purpose
+
+```{r}
+# Generate the bar plot
+counts <- table(data_clean$purpose)
+
+barplot_heights <- barplot(counts,
+        main = "Bar Plot of Purpose Variable",
+        xlab = "Categories",
+        ylab = "Frequency",
+        col = "lightblue",
+        border = "black",
+        las = 2,                
+        ylim = c(0, max(counts) * 1.1),  
+        cex.names = 0.8)        
+
+text(x = barplot_heights, y = counts, labels = counts, pos = 3, cex = 0.8, col = "black")
+
+```
+
+There are 14 different labels and some of them (e.g. educational) have very few instances. Most instances are attributed to debt_consolidation or credit_card.
+```{r}
+ggplot(data = data_clean, mapping = aes(x=int_rate,y=purpose))+geom_boxplot()
+```
+
+As these are all differently associated with the int_rate, we keep them all and use one-hot-encoding.
+
+### addr_state
+```{r}
+ggplot(data_clean, aes(x = reorder(addr_state, -table(addr_state)[addr_state]))) +  # Sort by frequency
+  geom_bar(fill = "lightblue", color = "black", width = 0.7) +  # Adjust bar width
+  geom_text(stat = 'count', aes(label = ..count..), vjust = 0.3, hjust = -0.1, size = 2) +  # Increase label size
+  theme_minimal() +
+  labs(title = "Bar Plot of addr_state Variable", x = "State", y = "Frequency") +
+  theme(
+    axis.text.y = element_text(size = 5),  # Increase y-axis (state) label size
+    axis.text.x = element_text(size = 5),  # Increase x-axis (frequency) label size
+    plot.title = element_text(hjust = 0.5, size = 16),  # Increase title size and center
+    axis.title.x = element_text(size = 14),  # Increase x-axis title size
+    axis.title.y = element_text(size = 14)   # Increase y-axis title size
+  ) +
+  coord_flip() 
+```
+
+It is interesting to see that the state of California has almost twice as many applications as New York with the second most frequent state.
+
+
+```{r}
+ggplot(data_clean, aes(x = reorder(addr_state, int_rate, FUN = median), y = int_rate)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Distribution of Interest Rates by State", x = "State", y = "Interest Rate (%)") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+We need to convert this information so we can use it for our model. We will convert it into a factor.
+
+
+### dti
+We continue with dti which is the debt to income ratio. 
+It is used to measure how capable a borrower is to manage monthly debt payments relative to their income.
+A lower DTI means the borrower has more manageable debt, while a high value of dti represents that they need to spend more of their income towards paying off the debt.
+The Consumer Financial Protection Bureau (CFPB), a U.S. government agency, advises for 36% dti or less for homeowners, and 15-20% or less for renters.The mortgage debt for homeowners should ideally not exceed 28-35% or less. 
+
+```{r, results='hide'}
+hist(data_clean$dti)
+```
+
+From the spread of this data, this distribution looks quite weird. We'll have a closer look at the statistics.
+```{r}
+summary(data_clean$dti)
+```
+
+With the 75th percentile being at 23.95 and the max being 9999, this seems strange. 
+
+```{r}
+# Create a boxplot for the loan_amnt variable
+boxplot(data_clean$dti, 
+        main = "Boxplot of DTI", 
+        ylab = "Loan Amount", 
+        col = "lightgray", 
+        border = "black", 
+        horizontal = FALSE,   # Vertical boxplot (default)
+        notch = TRUE)         # Add notches to show confidence interval around the median
+
+```
+
+With this boxplot, we can identify the 9999 value as extreme outliers. This value also really doesn't make sense compared to what values we expect for the dti.
+
+```{r}
+# Calculate Q1, Q3, and IQR for the column you're plotting
+Q1 <- quantile(data_clean$dti, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_clean$dti, 0.75, na.rm = TRUE)
+IQR_value <- Q3 - Q1
+
+# Calculate lower and upper bounds for outliers
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+
+# Display the calculated bounds for reference
+print(paste("Lower Bound:", lower_bound))
+print(paste("Upper Bound:", upper_bound))
+
+# Identify rows where values are outliers
+outliers <- data_clean %>%
+  filter(dti < lower_bound | dti > upper_bound)
+
+# Check the number of outliers
+print(paste("Number of outliers detected:", nrow(outliers)))
+
+```
+
+```{r, results = "hide"}
+# View the rows that are considered outliers
+print(outliers)
+```
+
+Having a closer look at these 74 rows, we can see that there are quite a few outliers that are not possible - a dti of 9999 is strictly impossible and some of the other entries are highly improbable - given that values of over 60% are already considered very high, a dti of 380 or 672 is extremely unlikely.
+There are also instances in which the dti values are 0. 
+```{r, results = "hide"}
+dti_zero <- data_clean[data_clean$dti == 0, ]
+
+# Display the rows where dti is zero
+dti_zero
+
+```
+
+In the next step, we try to find out whether the data is missing at random (MAR) or missing not at random (MNAR).
+First, we will set the values of 0 for dti to NA.
+
+```{r}
+data_clean$dti[data_clean$dti == 0] <- NA
+```
+
+```{r}
+# Creating an indicator column where 1 means DTI is missing (NA), 0 means DTI is not missing
+data_clean$dti_missing <- ifelse(is.na(data_clean$dti), 1, 0)
+```
+
+```{r}
+data_clean %>%
+  group_by(dti_missing) %>%
+  summarise(mean_inc = mean(annual_inc, na.rm = TRUE),
+            count = n())
+```
+```{r}
+# Boxplot comparing income for missing vs. non-missing DTI
+ggplot(data_clean, aes(x = factor(dti_missing), y = annual_inc)) +
+  geom_boxplot() +
+  labs(x = "DTI Missing Indicator", y = "Income", title = "Income Distribution for Missing vs. Non-missing DTI")
+
+```
+
+It looks like this missing DTI might not be MAR but MNAR, with a lower mean_income and a lower mean loan_amount 
+
+We will also have a look at the outliers that are much higher than most of the values. We are using the modified z-score to identify extreme outliers. The modified Z-Score is more robust than the "normal" z-score or the calculation with the interquantile range, because it uses the median to calculate z-scores as opposed to the mean, which is known to be influenced by outliers, and we know that we have values of 9999 in the dataset which skews the distribution. 
+
+Value's with Modified Z-Scores less than -3.5 or greater than 3.5 be labeled as potential outliers.
+
+```{r}
+# Calculate the median and MAD (median absolute deviation)
+median_dti <- median(data_clean$dti, na.rm = TRUE)
+mad_dti <- mad(data_clean$dti, na.rm = TRUE)
+
+# Calculate modified z-scores
+data_clean$mod_z_score_dti <- 0.6745 * (data_clean$dti - median_dti) / mad_dti
+
+# Identify extreme outliers based on modified z-score
+data_clean$dti_outlier <- ifelse(abs(data_clean$mod_z_score_dti) > 3.5, 1, 0)
+
+```
+
+```{r}
+data_clean %>%
+  group_by(dti_outlier) %>%
+  summarise(mean_annual_inc = mean(annual_inc, na.rm = TRUE),
+            mean_loan_amount = mean(loan_amnt, na.rm = TRUE),
+            count = n())
+```
+```{r}
+# Boxplot for annual income (annual_inc) based on DTI outliers
+ggplot(data_clean, aes(x = factor(dti_outlier), y = annual_inc)) +
+  geom_boxplot() +
+  labs(x = "DTI Outlier Indicator", y = "Annual Income", title = "Annual Income Distribution: DTI Outliers vs Non-Outliers")
+
+
+```
+
+```{r}
+# Boxplot for loan amount (loan_amnt) based on DTI outliers
+ggplot(data_clean, aes(x = factor(dti_outlier), y = loan_amnt)) +
+  geom_boxplot() +
+  labs(x = "DTI Outlier Indicator", y = "Loan Amount", title = "Loan Amount Distribution: DTI Outliers vs Non-Outliers")
+```
+
+In the next step, we add code to our data preparation pipeline that sets the dti column of the instances where the dti is 0 as well as the identified extreme outliers in the dti column to NA, so we can later impute them.
+
+
+### delinq_2yrs
+This variable represents 30+ days past-due incidences of delinquency in the borrower's credit file for the past 2 years.
+First we do some visual exploration of the delinq_2yrs:
+```{r, results='hide'}
+boxplot(data_clean$delinq_2yrs)
+hist(data_clean$delinq_2yrs)
+plot(data_clean$int_rate, data_clean$delinq_2yrs)
+```
+
+We can see from the boxplot as well as the summary statistics that most people do not have 30+ days past-due incidences, but there are some outliers in this column.
+```{r}
+summary(data_clean$delinq_2yrs)
+```
+
+### earliest_cr_line
+This is the month the borrower's earliest reported credit line was opened.
+From the data overview, we know this column containts the type 'character'.
+
+```{r, results='hide'}
+head(data_clean$earliest_cr_line)
+```
+This column needs to be converted into a numeric column in order to be used for the regression task.
+To be able to compare it, we transform it into a date in the format YYYY-MM-01 and then calculate the amount of months elapsed since the 01.01.1950. This way, we conserve the relationship between the dates when transforming to a numerical format.
+Because we have a wide variety of dates and we plan to use a regression model, we also scale this feature to improve the performance of the model.
+
+### open_acc
+Next, we look at the colum open_acc which is the number of open credit lines in the borrower's credit file.
+
+```{r, results='hide'}
+hist(data_clean$open_acc)
+plot(data_clean$int_rate, data_clean$open_acc)
+boxplot(data_clean$open_acc)
+```
+
+### open_acc
+This describes the number of open credit lines in the borrower's credit file.
+
+```{r, results='hide'}
+hist(data_clean$open_acc)
+plot(data_clean$int_rate, data_clean$open_acc)
+boxplot(data_clean$open_acc)
+
+```
+```{r}
+summary(data_clean$open_acc)
+```
+
+
+### pub_rec
+pub_rec is the number of derogatory public records: is a count of negative or adverse public records listed on a borrower's credit report
+
+```{r, results='hide'}
+hist(data_clean$pub_rec)
+plot(data_clean$int_rate, data_clean$pub_rec)
+boxplot(data_clean$pub_rec)
+```
+
+```{r}
+ggplot(data = data_clean, aes(x = as.factor(pub_rec), y = int_rate)) +
+  geom_boxplot() +
+  labs(title = "Comparison of Interest Rates by Number of Public Records (pub_rec)",
+       x = "Number of Public Records (pub_rec)",
+       y = "Interest Rate (%)") +
+  theme_minimal()
+```
+
+### revol_bal
+Revol_bal is the total credit revolving balance: refers to the sum of the outstanding balances on all of a borrower's revolving credit accounts.
+
+```{r, results='hide'}
+hist(data_clean$revol_bal)
+plot(data_clean$int_rate, data_clean$revol_bal)
+boxplot(data_clean$revol_bal)
+```
+
+This distribution looks like there are some extreme values and outliers, which is why we have a closer look at the summary statistics.
+```{r}
+summary(data_clean$revol_bal)
+```
+
+As we can see, there is at least one extreme outlier! 
+In the next step, we have a look at the outliers in this column. We use the standard method of 1.5 x the interquantile range to identify outliers.
+
+```{r}
+# Step 1: Calculate the IQR
+Q1 <- quantile(data_clean$revol_bal, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_clean$revol_bal, 0.75, na.rm = TRUE)
+IQR_value <- Q3 - Q1
+
+# Step 2: Define the lower and upper bounds
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+
+# Step 3: Identify outliers
+outliers <- data_clean %>%
+  filter(revol_bal < lower_bound | revol_bal > upper_bound)
+
+```
+
+```{r, results = "hide"}
+# View the rows that are considered outliers
+print(outliers)
+```
+
+```{r}
+# Calculate skewness
+skewness_value <- skewness(data_clean$revol_bal, na.rm = TRUE)
+
+# Calculate kurtosis
+kurtosis_value <- kurtosis(data_clean$revol_bal, na.rm = TRUE)
+
+# Print the results
+cat("Skewness:", skewness_value, "\n")
+cat("Kurtosis:", kurtosis_value, "\n")
+```
+
+Both the skewness and especially the curtosis are very high, which is why we will have a closer look at extreme outliers. These are the values we might like to drop / replace with NA and then impute because they can negatively influence the model.
+We take a closer look with the modified z-score, because it is very useful for skewed datasets.
+
+```{r}
+median_revol_bal <- median(data$revol_bal, na.rm = TRUE)
+mad_revol_bal <- mad(data$revol_bal, na.rm = TRUE)
+
+# Step 2: Calculate the Modified Z-Score
+data_clean <- data_clean %>%
+  mutate(mod_zscore = 0.6745 * (revol_bal - median_revol_bal) / mad_revol_bal)
+
+# Step 3: Identify rows where the Modified Z-Score is greater than 3.5 (extreme outliers)
+extreme_outliers <- data_clean %>%
+  filter(mod_zscore > 3.5 | mod_zscore < -3.5)
+```
+```{r, results = "hide"}
+# Print the extreme outliers
+print(extreme_outliers)
+```
+
+We decided that we will get rid of all extreme outliers that have a modified z-score of > 3.5 or < -3.5. We add this to our data preparation pipeline.
+
+### revol_util 
+Is the revolving line utilization rate, or the amount of credit the borrower is using relative to all available revolving credit. This is a rate. It is recommendet to ideally keep a credit utilization rate of below 30%. The lower the rate, the better.
+
+```{r}
+hist(data_clean$revol_util)
+plot(data_clean$int_rate, data_clean$revol_util)
+boxplot(data_clean$revol_util)
+```
+
+As we can see, this distribution looks suspicious to have outliers. 
+
+```{r}
+summary(data_clean$revol_util)
+```
+
+```{r}
+# Calculate skewness
+skewness_value <- skewness(data_clean$revol_util, na.rm = TRUE)
+
+# Calculate kurtosis
+kurtosis_value <- kurtosis(data_clean$revol_util, na.rm = TRUE)
+
+# Print the results
+cat("Skewness:", skewness_value, "\n")
+cat("Kurtosis:", kurtosis_value, "\n")
+```
+
+Skewness looks good, the kurtosis is slightly elevated.
+We have a closer look at the extreme outliers.
+
+```{r}
+median_revol_util <- median(data$revol_util, na.rm = TRUE)
+mad_revol_util <- mad(data$revol_util, na.rm = TRUE)
+
+# Step 2: Calculate the Modified Z-Score
+data_clean <- data_clean %>%
+  mutate(mod_zscore_util = 0.6745 * (revol_util - median_revol_util) / mad_revol_util)
+
+# Step 3: Identify rows where the Modified Z-Score is greater than 3.5 (extreme outliers)
+extreme_outliers <- data_clean %>%
+  filter(mod_zscore_util > 3.5 | mod_zscore_util < -3.5)
+
+```
+```{r, results = "hide"}
+# Print the extreme outliers
+print(extreme_outliers)
+```
+
+There are just two extreme outliers, but we will remove them in the data preprocessing step.
+
+
+### total_acc
+Total_acc is the total number of credit lines currently in the borrower's credit file.
+We start with visual exploration:
+```{r}
+hist(data_clean$total_acc)
+plot(data_clean$int_rate, data_clean$total_acc)
+boxplot(data_clean$total_acc)
+```
+
+```{r}
+summary(data_clean$total_acc)
+```
+
+
+### initial_list_status
+Two values are possible in this column: w (whole) and f (fractional). Whole means only one investor can invest, while fractional means that it is open for multiple investors
+
+The summary shows that it is currently written in characters. We assume that we can change it into factors:
+```{r, results='hide'}
+ggplot(data_clean, aes(x = initial_list_status, y = int_rate)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(
+    title = "Comparison of Interest Rates by Initial List Status",
+    x = "Initial List Status",
+    y = "Interest Rate (%)"
+  ) +
+  theme_minimal()
+```
+
+They look similar in terms of interest rate. We decide to One-Hot-Encode them.  
+
+
+### last_credit_pull_d
+This is the  most recent month LC pulled credit for this loan.
+From the data overview, we know this column containts the type 'character'.
+
+```{r}
+head(data_clean$last_credit_pull)
+```
+
+This column needs to be converted into a numeric column in order to be used for the regression task.
+We perform the following, similar to the earliest_cr_line column:
+To be able to compare it, we transform it into a date in the format YYYY-MM-01 and then calculate the amount of months elapsed since the 01.01.1950. This way, we conserve the relationship between the dates when transforming to a numerical format.
+Because we have a wide variety of dates and we plan to use a regression model, we also scale this feature to improve the performance of the model.
+
+
+### collections_12_mths_ex_med
+This feature represents the number of collections in 12 months excluding medical collections.
+```{r}
+hist(data_clean$collections_12_mths_ex_med)
+plot(data_clean$int_rate, data_clean$collections_12_mths_ex_med)
+boxplot(data_clean$collections_12_mths_ex_med)
+```
+
+### application_type
+We have a look at the possible values of this column:
+```{r}
+unique(data_clean$application_type)
+```
+
+
+```{r}
+ggplot(data_clean, aes(x = application_type, y = int_rate)) +
+  geom_boxplot() +
+  labs(title = "Interest Rate by Application Type", x = "Application Type", y = "Interest Rate")
+```
+
+As we can see, the interest rate differs between the two classes individual and joint, which is why we will keep this feature. 
+We will one-hot-encode it and add this to the data preparation pipeline.
+
+### verification_status_joint
+This is only available for instances where the application_type is "JOINT". One could drop it, since it is only relevant for the joint applications, but as we saw from the analysis of the application_type, the interest rate is different for the joint and individual applications, so this feature might provide us ith additional information. In the next step, we look at how the different values in this column influence the interest rate.
+
+```{r}
+ggplot(data_clean, aes(x = verification_status_joint, y = int_rate)) +
+  geom_boxplot() +
+  labs(title = "Interest Rate by Verification Status Joint", x = "Verification Status Joint", y = "Interest Rate")
+```
+
+We can see that the interest rate for the "not verified" values is similar to the individual applications (boxplot on the far left), but "source verified" and "verified" have a higher interest rate. This initially seemed strange to us, as we thought that having a validated source income would lead to a lower interest rate, but upon research we discovered the following explanations:
+
+- applicants that have a higher risk profile are more likely to be chosen for verification of the income
+- for loans of a higher amount (that tend to have a higher interest rate), the applicants are more likely to be chosen to be verified
+- applicants that go through the full background check (verified or source verified) are more likely to be found out to have lower credit scores or other factors that might increase the interest rate
+
+After these considerations, we conclude that this column is of value for us and we keep it. Because of the ordinal nature of this feature, we want to use label encoding, but we also need to handle the individual values which have no value in this column. We will encode the "individual" instances without a value in this column to -1, which should represent "not applicable".
+
+###  acc_now_delinq 
+This feature is the number of accounts on which the borrower is now delinquent.
+We start with visual exploration:
+```{r}
+hist(data_clean$acc_now_delinq)
+plot(data_clean$int_rate, data_clean$acc_now_delinq)
+boxplot(data_clean$acc_now_delinq)
+```
+
+### tot_coll_amt
+
+Refers to the sum of all amounts that a borrower has owed. 
+
+```{r, results='hide'}
+ggplot(data = data_clean, mapping = aes(x=int_rate,y=tot_coll_amt))+geom_point(alpha=0.2)
+summary(data_clean$tot_coll_amt)
+```
+
+We can see that we have at least one outlier, with an amount of 9'152'545 owed, which is a lot. Apart from that, we don't see much in the visual exploration, but we realise that there are quite many NAs, which we will handle later. 
+We continue to have a closer look at the distribution:
+
+```{r}
+# Calculate skewness
+skewness_value <- skewness(data_clean$tot_coll_amt, na.rm = TRUE)
+
+# Calculate kurtosis
+kurtosis_value <- kurtosis(data_clean$tot_coll_amt, na.rm = TRUE)
+
+# Print the results
+cat("Skewness:", skewness_value, "\n")
+cat("Kurtosis:", kurtosis_value, "\n")
+```
+
+Both skewness and kurtosis are extremely high. We will look closer at the outliers:
+
+```{r}
+median_tot_coll_amt <- median(data_clean$tot_coll_amt, na.rm = TRUE)
+mad_tot_coll_amt <- mad(data_clean$tot_coll_amt, na.rm = TRUE)
+
+# Step 2: Calculate the Modified Z-Score
+data_clean <- data_clean %>%
+  mutate(mod_zscore = 0.6745 * (tot_coll_amt - median_tot_coll_amt) / mad_tot_coll_amt)
+
+# Step 3: Identify rows where the Modified Z-Score is greater than 3.5 (extreme outliers)
+extreme_outliers <- data_clean %>%
+  filter(mod_zscore > 3.5 | mod_zscore < -3.5)
+
+```
+```{r, results = "hide"}
+# Print the extreme outliers
+print(extreme_outliers)
+```
+
+We see that we get 104'779 rows of extreme outliers with the modified z-score. This is because there are so many values of zero in this column (meaning that this person has never owed any money). We conclude that this is not a suiting method to eliminate outliers, as we would lose a lot of valuable information if we eliminated rows based on a modified z-score of more than 3.5, because these rows are likely very interesting for us to predict an interest rate.
+
+An alternative way to deal with this would be to apply log transformation on this feature, which would make the distribution more symmetric and improve model performance, especially for linear regression models that we also plan to use. In the next step, we have a look at the correlation between this feature and our target variable int_rate, before and after capping and log transformation.
+
+```{r}
+# Step 1: Capping at the 99th percentile (without changing the original dataset)
+cap_value <- quantile(data_clean$tot_coll_amt, 0.99, na.rm = TRUE)
+
+# Create temporary capped version
+tot_coll_amt_capped <- ifelse(data_clean$tot_coll_amt > cap_value, cap_value, data_clean$tot_coll_amt)
+
+# Step 2: Apply log transformation to the capped values
+tot_coll_amt_log_capped <- log1p(tot_coll_amt_capped)  # log1p(x) = log(x + 1)
+
+# Step 3: Calculate correlations
+
+# Correlation before transformation (original dataset)
+cor_before <- cor(data_clean$tot_coll_amt, data_clean$int_rate, use = "complete.obs")
+
+# Correlation after capping (temporary capped version)
+cor_after_capping <- cor(tot_coll_amt_capped, data_clean$int_rate, use = "complete.obs")
+
+# Correlation after log transformation (with capping, temporary version)
+cor_after_log_capped <- cor(tot_coll_amt_log_capped, data_clean$int_rate, use = "complete.obs")
+
+# Print the correlations
+print("Correlation before transformation:")
+print(cor_before)
+
+print("Correlation after capping:")
+print(cor_after_capping)
+
+print("Correlation after log transformation (with capping):")
+print(cor_after_log_capped)
+
+```
+
+We can see that the correlation, even though still low, improves with the log transformation and capping, so we do add this to our data preparation pipeline.
+
+### tot_cur_bal
+Represents the total current balance of all accounts.
+```{r}
+ggplot(data = data_clean, mapping = aes(x=int_rate,y=tot_cur_bal))+geom_point(alpha=0.2)
+summary(data_clean$tot_cur_bal)
+```
+
+This looks quite similar to the tot_coll_amt column, so we proceed with the similar way:
+
+```{r}
+# Calculate skewness
+skewness_value <- skewness(data_clean$tot_cur_bal, na.rm = TRUE)
+
+# Calculate kurtosis
+kurtosis_value <- kurtosis(data_clean$tot_cur_bal, na.rm = TRUE)
+
+# Print the results
+cat("Skewness:", skewness_value, "\n")
+cat("Kurtosis:", kurtosis_value, "\n")
+```
+
+
+```{r}
+# Step 1: Capping at the 99th percentile (without changing the original dataset)
+cap_value <- quantile(data_clean$tot_cur_bal, 0.99, na.rm = TRUE)
+
+# Create temporary capped version
+tot_cur_bal_capped <- ifelse(data_clean$tot_cur_bal > cap_value, cap_value, data_clean$tot_cur_bal)
+
+# Step 2: Apply log transformation to the capped values
+tot_cur_bal_log_capped <- log1p(tot_cur_bal_capped)  # log1p(x) = log(x + 1)
+
+# Step 3: Calculate correlations
+
+# Correlation before transformation (original dataset)
+cor_before <- cor(data_clean$tot_cur_bal, data_clean$int_rate, use = "complete.obs")
+
+# Correlation after capping (temporary capped version)
+cor_after_capping <- cor(tot_cur_bal_capped, data_clean$int_rate, use = "complete.obs")
+
+# Correlation after log transformation (with capping, temporary version)
+cor_after_log_capped <- cor(tot_cur_bal_log_capped, data_clean$int_rate, use = "complete.obs")
+
+# Print the correlations
+print("Correlation before transformation:")
+print(cor_before)
+
+print("Correlation after capping:")
+print(cor_after_capping)
+
+print("Correlation after log transformation (with capping):")
+print(cor_after_log_capped)
+
+```
+
+As we can see, the log transformation here has no effect on the correlation, so we leave this feature as is. 
+
+### total_rev_hi_lim
+This feature contains the total revolving high credit/credit limit.
+```{r}
+ggplot(data = data_clean, mapping = aes(x=int_rate,y=total_rev_hi_lim))+geom_point(alpha=0.2)
+summary(data_clean$total_rev_hi_lim)
+```
+
+What is noticeable is that the amount of NAs between all three tot_coll_amt, tot_cur_bal and total_rev_hi_lim are the same and in all instances, they're missing all three of the values. It would be interesting to find out whether they are missing at random MAR or missing not at random MNAR, in order to decide whether to impute them & how, or whether to drop them. 
+
+We can see that there are instances of 9'999'999, which are by far higher than the next closer values, likely a mistake, which is why we set them to NA in the data preparation pipeline. 
+
+```{r}
+instances_with_9999999 <- data_clean %>%
+  filter(total_rev_hi_lim == 9999999)
+
+# Display the rows where the condition is true
+#print(instances_with_9999999)
+
+# Optionally, check how many such instances exist
+count_9999999 <- nrow(instances_with_9999999)
+print(paste("Number of instances where total_rev_hi_lim == 9999999:", count_9999999))
+```
+
+
+## Data Preparation Pipeline 2
+In this second data preparation pipeline, we add the changes we decided upon in the data exploration step.
+```{r data-preparation}
+data_final <- data_clean %>%
+  
+  # Label encoding the emp_length variable
+  mutate(emp_length_encoded = as.numeric(factor(emp_length, 
+                                                levels = c("n/a", "< 1 year", "1 year", "2 years", "3 years", "4 years", 
+                                                           "5 years", "6 years", "7 years", "8 years", "9 years", 
+                                                           "10+ years"), 
+                                                labels = 0:11, ordered = TRUE))) %>%
+  
+  # Label encoding the loan_term variable
+  mutate(term_encoded = as.numeric(factor(trimws(term),  # trimws() removes any extra spaces
+                                               levels = c("36 months", "60 months"), 
+                                               labels = c(1, 2)))) %>%
+  
+  mutate(mode_home_ownership = names(sort(table(home_ownership), decreasing = TRUE)[1])) %>%
+  # Changing the instances of OTHER, ANY and NONE in the home_ownership column to the mode
+  mutate(home_ownership = ifelse(home_ownership %in% c("OTHER", "NONE", "ANY"), 
+                                 mode_home_ownership, 
+                                 home_ownership)) %>%
+  
+  # One-Hot Encoding for home_ownership
+  {
+    dummies <- dummyVars(~ home_ownership, data = .)  # One-hot encoding
+    home_ownership_encoded <- data.frame(predict(dummies, newdata = .))
+    cbind(., home_ownership_encoded)  # Add the new one-hot encoded columns to the dataset
+  } %>%
+  
+  # Label encoding the verification_status column
+  mutate(verification_status_encoded = as.numeric(factor(verification_status, 
+                                                         levels = c("Not Verified", "Verified", "Source Verified"), 
+                                                         labels = c(0, 1, 2)))) %>%
+  
+    # One-Hot Encoding for purpose
+  {
+    dummies_purpose <- dummyVars(~ purpose, data = .)  # One-hot encoding for purpose
+    purpose_encoded <- data.frame(predict(dummies_purpose, newdata = .))
+    cbind(., purpose_encoded)  # Add the new one-hot encoded columns to the dataset
+  } %>%
+  
+  # One-Hot Encoding for addr_state
+  {
+    dummies_state <- dummyVars(~ addr_state, data = .)  # One-hot encoding for addr_state
+    addr_state_encoded <- data.frame(predict(dummies_state, newdata = .))
+    cbind(., addr_state_encoded)  # Add the new one-hot encoded columns to the dataset
+  } %>%
+
+  # Set dti to NA where dti is 0
+  mutate(dti = ifelse(dti == 0, NA, dti)) %>%
+  
+  # Calculate the modified z-score for the dti column & set dti to NA where the modified z-score is greater than 3.5
+  mutate(mod_z_score_dti = 0.6745 * (dti - median(dti, na.rm = TRUE)) / mad(dti, na.rm = TRUE)) %>%
+  mutate(dti = ifelse(abs(mod_z_score_dti) > 3.5, NA, dti)) %>%
+  
+  # Convert earliest_cr_line to a date format
+  mutate(earliest_cr_line_date = dmy(paste("01-", earliest_cr_line, sep=""))) %>%
+  
+  # Convert earliest_cr_line_date to months since January 1, 1950
+  mutate(earliest_cr_line_month = as.numeric(difftime(earliest_cr_line_date, 
+                                                       as.Date("1950-01-01"), 
+                                                       units = "days")) / 30.44) %>%  # 30.44 is average days in a month
+  #scale the earliest_cr_line_months
+  mutate(earliest_cr_line_scaled = scale(earliest_cr_line_month)) %>%
+  
+  # Calculate the modified z-score for the revol_bal column & set dti to NA where the modified z-score is greater than 3.5
+  mutate(mod_z_score_revol_bal = 0.6745 * (revol_bal - median(revol_bal, na.rm = TRUE)) / mad(revol_bal, na.rm = TRUE)) %>%
+  mutate(revol_bal = ifelse(abs(mod_z_score_revol_bal) > 3.5, NA, revol_bal)) %>%
+
+  # Calculate the modified z-score for the revol_util column & set dti to NA where the modified z-score is greater than 3.5
+  mutate(mod_z_score_revol_util = 0.6745 * (revol_util - median(revol_util, na.rm = TRUE)) / mad(revol_util, na.rm = TRUE)) %>%
+  mutate(revol_util = ifelse(abs(mod_z_score_revol_util) > 3.5, NA, revol_util)) %>%
+
+  # Label Encoding for initial_list_status
+  mutate(initial_list_status_encoded = as.numeric(factor(initial_list_status,  
+                                               levels = c("f", "w"), 
+                                               labels = c(1, 2))))  %>%
+
+  
+  # Convert last_credit_pull to a date format
+  mutate(last_credit_pull_date = dmy(paste("01-", last_credit_pull_d, sep=""))) %>%
+  
+  # Convert earliest_cr_line_date to months since January 1, 1950
+  mutate(last_credit_pull_month = as.numeric(difftime(last_credit_pull_date, 
+                                                       as.Date("1950-01-01"), 
+                                                       units = "days")) / 30.44) %>%  # 30.44 is average days in a month
+  #scale the earliest_cr_line_months
+  mutate(last_credit_pull_scaled = scale(last_credit_pull_month)) %>%
+  
+  
+  mutate(application_type_encoded = as.numeric(factor(application_type,  
+                                               levels = c("INDIVIDUAL", "JOINT"), 
+                                               labels = c(1, 2))))  %>%
+  
+  # Replace empty strings and NA with 'Not Applicable' in verification_status_joint
+  mutate(verification_status_joint = ifelse(is.na(verification_status_joint) | verification_status_joint == "", 
+                                            "Not Applicable", verification_status_joint)) %>%
+
+  # Ordinal encoding for verification_status_joint (keeping 'Not Applicable' as separate)
+  mutate(verification_status_joint_encoded = case_when(
+    verification_status_joint == 'Not Applicable' ~ -1,  # Not Applicable
+    verification_status_joint == 'Not Verified' ~ 0,
+    verification_status_joint == 'Verified' ~ 1,
+    verification_status_joint == 'Source Verified' ~ 2
+  )) %>%
+  
+  # Log-Transformation & Capping: Step 1: Capping tot_coll_amt at the 99th percentile
+  {
+    cap_value <- quantile(.$tot_coll_amt, 0.99, na.rm = TRUE)  # Calculate 99th percentile cap
+    mutate(., tot_coll_amt_capped = ifelse(tot_coll_amt > cap_value, cap_value, tot_coll_amt))
+  } %>%
+
+  # Log-Transformation & Capping: Step 2: Apply log transformation to the capped values of tot_coll_amt
+  mutate(tot_coll_amt_log_capped = log1p(tot_coll_amt_capped))  %>%# Apply log1p to capped values
+
+  # Set total_rev_hi_lim to NA where its value is 9999999
+  mutate(total_rev_hi_lim = ifelse(total_rev_hi_lim == 9999999, NA, total_rev_hi_lim)) %>%
+
+  select(-emp_length,
+         -term,
+         -home_ownership,
+         -verification_status,
+         -addr_state,
+         -purpose,
+         -mod_z_score_dti,
+         -earliest_cr_line,
+         -earliest_cr_line_date,
+         -earliest_cr_line_month,
+         -mod_z_score_revol_bal,
+         -mod_z_score_revol_util,
+         -initial_list_status,
+         -last_credit_pull_d,
+         -last_credit_pull_date,
+         -last_credit_pull_month,
+         -application_type,
+         -verification_status_joint,
+         -tot_coll_amt,
+         -tot_coll_amt_capped)
+
+
+```
+
+## Imputation
+We want to impute using kNN. We initially tried running kNN on the whole dataset, but we got the following error:
+Error: vector memory limit of 16.0 Gb reached, see mem.maxVSize()
+
+So in the next step we try to set the maxVSize higher using the usethis package:
+```{r, eval = FALSE}
+usethis::edit_r_environ()
+```
+This code opens a window with the .Renviron, where we entered this:
+R_MAX_VSIZE = 64Gb
+
+Then we run this code:
+```{r, eval = FALSE}
+# Identify columns with missing values
+columns_with_na <- colnames(data_final)[colSums(is.na(data_final)) > 0]
+
+# Data preparation pipeline (without open_acc and application_type_encoded)
+data_imputed <- data_final %>%
+  select(-open_acc, -application_type_encoded)
+
+# Impute missing values column by column using kNN
+for (col in columns_with_na) {
+  # Print the number of NA values before imputation
+  na_before <- sum(is.na(data_imputed[[col]]))
+  cat("Column:", col, "- NA before:", na_before, "\n")
+  
+  # Perform garbage collection to clear memory before each kNN call
+  gc()
+
+  # Impute each column separately
+  data_imputed <- kNN(data_imputed, variable = col, k = 5)
+  
+  # Remove the extra ".imp" column added by kNN for the current column
+  data_imputed <- data_imputed %>%
+    select(-ends_with(".imp"))
+  
+  # Perform garbage collection after imputation to release memory
+  gc()
+  
+  # Print the number of NA values after imputation
+  na_after <- sum(is.na(data_imputed[[col]]))
+  cat("Column:", col, "- NA after:", na_after, "\n\n")
+}
+
+# Final check if all missing values are imputed
+sapply(columns_with_na, function(col) sum(is.na(data_imputed[[col]])))
+```
+Unfortunately, we still get this error: 
+Error: vector memory limit of 64.0 Gb reached, see mem.maxVSize()
+
+More specifically, this error is caused by the revol_bal column, which has 18'005 NAs, while the dti column with 427 NAs was successfully imputed before using kNN. We conclude that we do not have enough memory to impute the whole dataset using kNN. 
+To fix this, we decided to take the following approach:
+
+- imputation column by column
+- in the columns, make chunks of 50'000 instances and impute among them using kNN with N=5 -> this makes the imputation less good than if we did it over the whole dataset, but we do not have the computational resources to do this for the whole dataset
+
+```{r, eval = FALSE}
+# Identify columns with missing values -> these are the columns we want to impute
+columns_with_na <- colnames(data_final)[colSums(is.na(data_final)) > 0]
+
+imputed_columns <- list()
+
+# Chunk size to process data in smaller parts - (this is necessary so vector memory limit is not reached)
+chunk_size <- 50000
+
+# Process each column with missing values
+for (col in columns_with_na) {
+  na_before <- sum(is.na(data_final[[col]]))
+  cat("Column:", col, "- NA before:", na_before, "\n")
+  
+  # Create an empty vector to store the imputed column values
+  imputed_col <- numeric(nrow(data_final))
+  
+  # Process the column in chunks
+  for (i in seq(1, nrow(data_final), by = chunk_size)) {
+    # Define the start and end of the chunk
+    chunk_start <- i
+    chunk_end <- min(i + chunk_size - 1, nrow(data_final))
+    
+    # Extract the chunk of rows
+    data_chunk <- data_final[chunk_start:chunk_end, ]
+    
+    # Perform kNN imputation on the chunk for the current column
+    data_chunk_imputed <- kNN(data_chunk, variable = col, k = 5)
+    
+    # Store the imputed values back into the imputed_col vector
+    imputed_col[chunk_start:chunk_end] <- data_chunk_imputed[[col]]
+    
+    # Clear memory between chunks
+    gc()
+  }
+  
+  # Store the imputed column in the list with the column name
+  imputed_columns[[col]] <- imputed_col
+  
+  # Print the number of NA values after imputation
+  na_after <- sum(is.na(imputed_col))
+  cat("Column:", col, "- NA after:", na_after, "\n\n")
+  
+  # Clear memory after each column
+  gc()
+}
+
+# Combine the imputed columns into a new data frame
+imputed_data <- data.frame(imputed_columns)
+
+# add back columns that didn't have missing values
+non_na_columns <- setdiff(colnames(data_final), columns_with_na)
+imputed_data <- bind_cols(imputed_data, data_final[non_na_columns])
+
+# Check final data for any remaining missing values
+sapply(columns_with_na, function(col) sum(is.na(imputed_data[[col]])))
+```
+
+Because this ran for almost 8 hours, we export the imputed dataset to a csv to make sure we won't have to run it again.
+
+```{r, eval = FALSE}
+# Export the imputed_data dataset to a CSV file
+write.csv(imputed_data, file = "imputed_data.csv", row.names = FALSE)
+```
+
+We reimport the dataset here.
+```{r}
+imputed_data <- read.csv("../experiments/Assignment1/imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
+```
+
+## Correlation Matrix
+
+```{r}
+# Calculate correlation matrix
+correlation_matrix <- cor(imputed_data)
+
+# Set diagonal and lower triangle to NA (keep only the upper triangle)
+correlation_matrix[lower.tri(correlation_matrix, diag = TRUE)] <- NA
+
+# Filter the correlations greater than a threshold (e.g., 0.5)
+filtered_positions <- which(abs(correlation_matrix) > 0.5, arr.ind = TRUE)
+
+# Create a data frame with the filtered correlations
+correlations_dataframe <- data.frame(
+  Variable1 = rownames(correlation_matrix)[filtered_positions[, 1]],
+  Variable2 = colnames(correlation_matrix)[filtered_positions[, 2]],
+  Correlation = correlation_matrix[filtered_positions],
+  stringsAsFactors = FALSE
+)
+
+# Print the result
+print(correlations_dataframe)
+```
+
+```{r}
+# Calculate correlations with the target variable 'int_rate'
+cor_open_acc <- cor(data_final$open_acc, data_final$int_rate, use = "complete.obs")
+cor_total_acc <- cor(data_final$total_acc, data_final$int_rate, use = "complete.obs")
+
+# Print the correlations
+cat("Correlation of 'open_acc' with 'int_rate':", cor_open_acc, "\n")
+cat("Correlation of 'total_acc' with 'int_rate':", cor_total_acc, "\n")
+
+# Compare which is higher
+if(abs(cor_open_acc) > abs(cor_total_acc)) {
+  cat("'open_acc' has a higher correlation with 'int_rate'.\n")
+} else if(abs(cor_open_acc) < abs(cor_total_acc)) {
+  cat("'total_acc' has a higher correlation with 'int_rate'.\n")
+} else {
+  cat("'open_acc' and 'total_acc' have equal correlation with 'int_rate'.\n")
+}
+
+```
+
+As we can see, we have some relatively high correlations we need to deal with to avoid multicollinearity issues.
+This is our approach:
+
+- open_acc / total_acc: they both have a low correlation with our target int_rate, but open_acc has the lower correlation, so we intend to drop this one. 
+- application_type_encoded / verification_status_joint_encoded: with the high correlation, we will need to drop one feature. We have decided to drop the application_type_encoded, because verification_status_joint_encoded gives us additional information
+
+We have decided to perform this after our initial model (which will include all features) to see how the performance changes.
+
+# Model Creation
+
+We define a function that logs the model details to our log file so whenever we run a model, it will be logged to the log file, that way we can easily view which models had which scored.
+```{r}
+log_model_details <- function(model_name, mse, parameters, log_file = "model_log.txt") {
+  log_entry <- paste(
+    "Model Name:", model_name,
+    "\nTest MSE:", mse,
+    "\nParameters:",
+    paste(names(parameters), parameters, sep = ": ", collapse = "\n"),
+    "\n--------------------------\n",
+    sep = "\n"
+  )
+  
+  # Append the log entry to the file
+  cat(log_entry, file = log_file, append = TRUE)
+}
+```
+
+The line we will run after every model to log it to the file is:
+log_model_details(model_name, mse, model$coefficients)
+The logs from all our models can be found in the model_log.txt file. 
+
+
+First, we load the imputed data from the csv, define our target variable which is int_rate, then set a seed for reproducibility and perform a 70/30 train/test split. 
+
+```{r}
+imputed_data <- read.csv("../experiments/Assignment1/imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
+```
+
+```{r}
+target_variable <- 'int_rate'  
+
+set.seed(42)
+
+trainIndex <- createDataPartition(imputed_data[[target_variable]], p = 0.7, list = FALSE)
+train_data <- imputed_data[trainIndex, ]
+test_data <- imputed_data[-trainIndex, ]
+```
+We have decided for the 70/30 split rather than the typical 80/20 because we have quite a large dataset and we would like to validate that we have a good performance on the test set without overfitting on the training set, as we would like to aim for a good score on the secret data as well.
+
+We will evaluate and compare the models mostly on the MSE, because this is the metric that will be used to measure our success on both the public and the secret data. For being able to estimate by how far our model is off in its predictions, we sometimes also use the RMSE.
+
+## Linear Regression Model
+### Model 1: With all features
+In the next step, we create a linear regression model.
+```{r}
+# Create the linear regression model
+linear_model.fit1 <- lm(as.formula(paste(target_variable, "~ .")), data = train_data)
+```
+
+```{r}
+# Evaluate the model on the test data
+predictions <- predict(linear_model.fit1, newdata = test_data)
+
+# Calculate the Mean Squared Error (MSE)
+mse <- mean((test_data[[target_variable]] - predictions)^2)
+print(paste("Mean Squared Error:", mse))
+
+# Calculate R-squared on the test data
+ss_total <- sum((test_data[[target_variable]] - mean(test_data[[target_variable]]))^2)
+ss_res <- sum((test_data[[target_variable]] - predictions)^2)
+r_squared <- 1 - (ss_res / ss_total)
+print(paste("R-squared:", r_squared))
+```
+
+```{r, eval = FALSE}
+log_model_details("Linear Model Fit 1: all parameters", mse, linear_model.fit1$coefficients)
+```
+
+We further want to optimise and lower the Mean Squared Error error.
+
+```{r}
+coefficients <- summary(linear_model.fit1)$coefficients
+
+# Remove the intercept (optional)
+coefficients <- coefficients[-1, , drop = FALSE]
+
+# Calculate the absolute values of the coefficients
+coefficients_df <- data.frame(
+  Feature = rownames(coefficients),
+  Importance = abs(coefficients[, "Estimate"])
+)
+
+# Sort the features by importance and select top 10
+top10_coefficients_df <- coefficients_df[order(coefficients_df$Importance, decreasing = TRUE), ][1:10, ]
+
+# Plotting the feature importance for top 10 features using ggplot2
+ggplot(top10_coefficients_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  xlab("Feature") +
+  ylab("Importance (Absolute Coefficient)") +
+  ggtitle("Top 10 Feature Importance Plot for Linear Regression")
+```
+
+#### Check for Collinearity
+In the next step, we have a look at potential collinearity in our model.
+```{r, eval=FALSE}
+vif(linear_model.fit1) 
+```
+
+We get an error that we have aliased coefficients in the model, so we have another look at the correlations. We already know from the correlation matrix that we need to drop the application_type_encoded feature.
+
+### Model 2: fixing the collinearity issues
+```{r}
+# Calculate correlation matrix, excluding specified columns
+cor_matrix <- cor(train_data[, !(names(train_data) %in% c("application_type_encoded", "home_ownershipMORTGAGE"))])
+
+# Get the absolute values of the correlation matrix and convert it to a data frame
+cor_df <- as.data.frame(as.table(abs(cor_matrix)))
+
+# Remove self-correlations (where variable1 == variable2)
+cor_df <- cor_df[cor_df$Var1 != cor_df$Var2, ]
+
+# Sort by correlation value in descending order
+cor_df_sorted <- cor_df[order(-cor_df$Freq), ]
+
+# Get the 5 highest correlations
+top_5_correlations <- head(cor_df_sorted, 5)
+
+top_5_correlations
+```
+
+```{r}
+# Create the linear regression model
+linear_model.fit2 <- lm(as.formula(paste(target_variable, "~ .")), data = train_data[, !(names(train_data) %in% c("application_type_encoded", "home_ownershipMORTGAGE"))])
+```
+
+```{r}
+predictions <- predict(linear_model.fit2, newdata = test_data[, !(names(test_data) %in% c("application_type_encoded", "home_ownershipMORTGAGE"))])
+
+# MSE
+mse <- mean((test_data[[target_variable]] - predictions)^2)
+print(paste("Mean Squared Error:", mse))
+
+# R-squared on test data
+ss_total <- sum((test_data[[target_variable]] - mean(test_data[[target_variable]]))^2)
+ss_res <- sum((test_data[[target_variable]] - predictions)^2)
+r_squared <- 1 - (ss_res / ss_total)
+print(paste("R-squared:", r_squared))
+log_model_details("Linear Model Fit 2: without application_type_encoded and home_ownership_MORTGAGE", mse, linear_model.fit2$coefficients)
+```
+
+```{r, eval=FALSE}
+vif(linear_model.fit2) 
+```
+
+We still get this error "Error in vif.default(linear_model.fit2) : 
+  there are aliased coefficients in the model" -> in the next step, we check which were the factors that are collinear.
+```{r}
+alias(linear_model.fit2)
+```
+
+This leads us to delete purposewedding & addr_stateWY.
+
+### Model 3: LM without purposewedding & addr_stateWY & home_ownershipRENT & purposecredit_card
+```{r}
+# Create the linear regression model
+linear_model.fit3 <- lm(as.formula(paste(target_variable, "~ .")), data = train_data[, !(names(train_data) %in% c("purposewedding", "addr_stateWY", "home_ownershipRENT", "purposecredit_card"))])
+```
+
+```{r}
+# Evaluate the model on the test data without the excluded columns
+predictions <- predict(linear_model.fit3, newdata = test_data[, !(names(test_data) %in% c("purposewedding", "addr_stateWY", "home_ownershipRENT", "purposecredit_card"))])
+
+# Calculate the Mean Squared Error (MSE)
+mse <- mean((test_data[[target_variable]] - predictions)^2)
+print(paste("Mean Squared Error:", mse))
+
+# Calculate R-squared on the test data
+ss_total <- sum((test_data[[target_variable]] - mean(test_data[[target_variable]]))^2)
+ss_res <- sum((test_data[[target_variable]] - predictions)^2)
+r_squared <- 1 - (ss_res / ss_total)
+print(paste("R-squared:", r_squared))
+log_model_details("Linear Model Fit 3: without purposewedding & addr_stateWY & home_ownershipRENT & purposecredit_card", mse, linear_model.fit3$coefficients)
+```
+
+```{r, eval=FALSE}
+vif(linear_model.fit3) 
+```
+
+```{r}
+vif_values <- vif(linear_model.fit3)
+
+# View the VIF values
+print(vif_values)
+
+# Identify variables with high VIF (>10)
+high_vif_vars <- names(vif_values[vif_values > 10])
+print(high_vif_vars)
+```
+
+As we can see, we have a lot of collinearity with all the addr_state columns, so we could try building a linear model without all these.
+
+### Model 4: without all addr_state columns + purposewedding & home_ownershipRENT & purposecredit_card
+```{r}
+exclude_columns <- c("purposewedding", "addr_stateWY", "home_ownershipRENT", "purposecredit_card")
+
+# Add all columns that start with 'addr_state'
+exclude_columns <- c(exclude_columns, grep("^addr_state", names(train_data), value = TRUE))
+
+# Create the linear regression model, excluding the specified columns
+linear_model.fit4 <- lm(as.formula(paste(target_variable, "~ .")), data = train_data[, !(names(train_data) %in% exclude_columns)])
+
+# Evaluate the model on the test data without the excluded columns
+predictions <- predict(linear_model.fit4, newdata = test_data[, !(names(test_data) %in% exclude_columns)])
+
+# Calculate the Mean Squared Error (MSE)
+mse <- mean((test_data[[target_variable]] - predictions)^2)
+print(paste("Mean Squared Error:", mse))
+
+# Calculate R-squared on the test data
+ss_total <- sum((test_data[[target_variable]] - mean(test_data[[target_variable]]))^2)
+ss_res <- sum((test_data[[target_variable]] - predictions)^2)
+r_squared <- 1 - (ss_res / ss_total)
+print(paste("R-squared:", r_squared))
+
+# Log model details
+log_model_details("Linear Model Fit 4: without all addr_state columns & purposewedding & addr_state* & home_ownershipRENT & purposecredit_card", mse, linear_model.fit4$coefficients)
+
+```
+
+As we can see, the mean squared error is still high, even though we excluded all the features with a high VIF. 
+
+```{r}
+vif_values <- vif(linear_model.fit4)
+
+# Identify variables with high VIF (>10)
+high_vif_vars <- names(vif_values[vif_values > 10])
+print(high_vif_vars)
+```
+
+### Feature Importance of the Best Linear Regression Model
+In the next step, we have a closer look at the feature importance plot for the best of our Linear Models so far, in order to decide how to continue our modelling.
+The best model we trained so far is the linear_model.fit1 (with all the features).
+```{r}
+coefficients <- coef(linear_model.fit1)
+
+# Convert to a data frame and calculate the absolute value of the coefficients
+coeff_df <- as.data.frame(coefficients)
+coeff_df$Feature <- rownames(coeff_df)
+colnames(coeff_df) <- c("Coefficient", "Feature")
+coeff_df$AbsCoefficient <- abs(coeff_df$Coefficient)
+
+# Select the top 10 features based on the absolute coefficient values
+top_10_features <- coeff_df[order(-coeff_df$AbsCoefficient), ][1:10, ]
+
+# Plotting the top 10 most important features
+library(ggplot2)
+ggplot(top_10_features, aes(x = reorder(Feature, AbsCoefficient), y = AbsCoefficient)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Most Important Features in Linear Regression",
+       x = "Features",
+       y = "Absolute Coefficient Value") +
+  theme_minimal()
+```
+
+### Diagnostic Plot
+```{r}
+autoplot(linear_model.fit1)
+```
+
+From these 4 diagnostic plots, we get the following information:
+
+- Non-linearity: Residuals vs Fitted plot shows a curved pattern
+- Non-normal residuals: Q-Q plot shows deviation from the normal line, especially in the tails
+- Heteroscedasticity: Scale-Location plot shows increasing variance with fitted values
+- Influential points: Residuals vs Leverage plot highlights high-leverage points that may unduly influence the model
+
+Based on this, we could proceed in any of the following ways:
+
+- put more effort into transforming the variables to address potential non-linearity 
+- identify & remove the outliers
+- trying a different model
+
+In following a practical approach and with already having performed a lot of data preprocessing, we decide to initially continue with trying other models and might come back to improving the linear regression models later on after having evaluated the performance of other models on our data. 
+
+## Polynomial Regression
+We try the polynomial regression with different predictor variables.
+### Model 1
+```{r}
+# Polynomial Regression (degree 2)
+polynomial_model.fit1 <- lm(int_rate ~ poly(loan_amnt, 2), data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit1, newdata = test_data)
+
+# Calculate MSE
+mse_poly <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression):", mse_poly))
+```
+```{r, eval=FALSE}
+log_model_details("Polynomial Regression 1", mse_poly, polynomial_model.fit1$coefficients)
+```
+
+### Model 2: multiple predictor variables
+In the next step, we try multiple predictor variables:
+```{r}
+# Polynomial Regression (degree 2) using multiple variables
+polynomial_model.fit2 <- lm(int_rate ~ poly(loan_amnt, 2) + poly(annual_inc, 2), data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit2, newdata = test_data)
+
+# Calculate MSE
+mse_poly2 <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression with multiple predictors):", mse_poly2))
+```
+
+
+```{r,eval=FALSE}
+log_model_details("Polynomial Regression 2: multiple predictor variables", mse_poly2, polynomial_model.fit2$coefficients)
+```
+
+```{r}
+# Polynomial Regression (degree 2) using multiple variables
+polynomial_model.fit3 <- lm(int_rate ~ poly(open_acc, 2) + poly(loan_amnt, 2), data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit3, newdata = test_data)
+
+# Calculate MSE
+mse_poly3 <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression with multiple predictors):", mse_poly3))
+```
+
+
+```{r, eval=FALSE}
+log_model_details("Polynomial Regression 2: multiple predictor variables (open_acc, loan_amnt)", mse_poly3, polynomial_model.fit3$coefficients)
+```
+
+All of these models have quite a high MSE compared to the models we tried so far, so we try other models and we might circle back to polynomial regression later.
+
+### Model 3
+We try to trick the lm() model to do polynomial regression for us. I'm using just one input variable to check:
+```{r}
+# Polynomial Regression
+polynomial_model.fit3 <- lm(int_rate ~ loan_amnt + I(loan_amnt^2), data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit3, newdata = test_data)
+
+# Calculate MSE
+mse_poly <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression):", mse_poly))
+```
+
+
+```{r, eval=FALSE}
+log_model_details2("Polynomial Regression 1", mse_poly, polynomial_model.fit3$coefficients)
+```
+
+The test MSE: 18.797105347165 is really high but also understandable. So therefore we are gonna use more input variables. 
+
+### Model 4
+Trying the same model but with 6 input variables. 
+```{r}
+# Polynomial regression with three random predictors and their squared terms
+polynomial_model.fit4 <- lm(int_rate ~ loan_amnt + I(loan_amnt^2) +
+                                          annual_inc + I(annual_inc^2) +
+                                          open_acc + I(open_acc^2), data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit4, newdata = test_data)
+
+# Calculate MSE
+mse_poly <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression with three predictors and squared terms):", mse_poly))
+```
+
+
+```{r, eval=FALSE}
+log_model_details2("Polynomial Regression with three predictors", mse_poly, polynomial_model.fit4$coefficients)
+```
+
+The MSE is already getting better with 6 input variables: Test MSE 18.2008938860579
+
+
+### Model 5
+Here we have taken the ten most important features from the decision tree to check whether they would also be important for the polynomial regression. However, we always use, for example, term_encoded and the same squared variable term_encoded^2. We have therefore used 20 variables for this model. 
+```{r}
+# Polynomial regression with some predictors and their squared terms
+polynomial_model.fit5 <- lm(int_rate ~ term_encoded + I(term_encoded^2) +
+                                          total_rev_hi_lim + I(total_rev_hi_lim^2) +
+                                          inq_last_6mths + I(inq_last_6mths^2) +
+                                          revol_bal + I(revol_bal^2) +
+                                          loan_amnt + I(loan_amnt^2) +
+                                          verification_status_encoded + I(verification_status_encoded^2) +
+                                          revol_util + I(revol_util^2) +
+                                          open_acc + I(open_acc^2) +
+                                          annual_inc + I(annual_inc^2) +
+                                          tot_cur_bal + I(annual_inc^2)
+                                          , data = train_data)
+
+# Predictions
+pred_poly <- predict(polynomial_model.fit5, newdata = test_data)
+
+# Calculate MSE
+mse_poly <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression with some more predictors and squared terms):", mse_poly))
+```
+
+
+```{r, eval=FALSE}
+log_model_details2("Polynomial Regression with some more predictors", mse_poly, polynomial_model.fit5$coefficients)
+```
+The test MSE is alreay 11.3063048622326. Compared to the beginning, already very low.
+
+Here we are plotting the 10 most important variables from the model above. 
+```{r}
+# Create data frame for plotting feature importance
+coefficients <- abs(coef(polynomial_model.fit5))[-1] # Exclude intercept
+importance_df <- data.frame(
+  Feature = names(coefficients),
+  Importance = coefficients
+)
+
+# Sort by importance and keep only the top 10 features
+top_10_importance_df <- importance_df[order(-importance_df$Importance), ][1:10, ]
+
+# Plot feature importance for top 10 features
+feature_importance_plot <- ggplot(top_10_importance_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Feature Importance (Based on Coefficients)",
+       x = "Features",
+       y = "Importance (Absolute Coefficient Value)") +
+  theme_minimal()
+
+# Save the plot as a PNG file
+#ggsave("top_10_feature_importance_plotModel5.png", plot = feature_importance_plot, width = 8, height = 6, dpi = 300)
+
+```
+
+### Model 6
+For Model 6 we are going to use all of the variables and also the squared variables. 
+```{r}
+predictors <- names(train_data)[!names(train_data) %in% "int_rate"]
+formula <- as.formula(paste("int_rate ~", paste(predictors, collapse = " + "), "+", paste(paste0("I(", predictors, "^2)"), collapse = " + ")))
+polynomial_model.fit6 <- lm(formula, data = train_data)
+
+# We train the model with all columns and square them additionally 
+# Predictions
+pred_poly <- predict(polynomial_model.fit6, newdata = test_data)
+
+# Calculate MSE
+mse_poly <- mean((test_data$int_rate - pred_poly)^2)
+print(paste("MSE (Polynomial Regression with all predictors and squared terms):", mse_poly))
+```
+
+
+```{r, eval=FALSE}
+log_model_details2("Polynomial Regression with all predictors", mse_poly, polynomial_model.fit6$coefficients)
+```
+The test MSE is now 9.7871740275904
+
+
+Plot the 10 most important features from the model above
+```{r}
+library(ggplot2)
+
+# Create data frame for plotting feature importance
+coefficients <- abs(coef(polynomial_model.fit6))[-1] # Exclude intercept
+importance_df <- data.frame(
+  Feature = names(coefficients),
+  Importance = coefficients
+)
+
+# Sort by importance and keep only the top 10 features
+top_10_importance_df <- importance_df[order(-importance_df$Importance), ][1:10, ]
+
+# Plot feature importance for top 10 features
+feature_importance_plot <- ggplot(top_10_importance_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Feature Importance (Based on Coefficients)",
+       x = "Features",
+       y = "Importance (Absolute Coefficient Value)") +
+  theme_minimal()
+
+# Save the plot as a PNG file
+ggsave("top_10_feature_importance_plotModel6.png", plot = feature_importance_plot, width = 8, height = 6, dpi = 300)
+
+```
+
+
+## Ridge Regression
+### Ridge Regression 1
+```{r, eval=FALSE}
+tuneGrid <- expand.grid(alpha = 0, lambda = seq(0.001, 1, by = 0.01))
+
+# Train model using 10-fold cross-validation
+train_control <- trainControl(method = "cv", number = 10)
+
+# Train the Ridge regression model
+set.seed(42)
+ridge_model <- train(
+  int_rate ~ .,
+  data = train_data,  # Replace with your dataset
+  method = "glmnet",
+  tuneGrid = tuneGrid,
+  trControl = train_control
+)
+
+# View the best tuning parameters and model performance
+print(ridge_model$bestTune)
+print(ridge_model$results)
+
+predictions <- predict(ridge_model, newdata = test_data)
+
+# Calculate the mean squared error on the test data
+mse <- mean((predictions - test_data$int_rate)^2)
+print(mse)
+```
+
+
+```{r, eval=FALSE}
+log_model_details("Ridge Regression: 10-fold CV", mse, ridge_model$coefficients)
+```
+We have a MSE of 10.60 with the best model after a Ridge Regression with 10-fold cross-validation.
+We put eval = False to not re-run it during knitting, because it would take too long.
+
+### Check if data standardized
+```{r}
+# Exclude the target variable "int_rate" from the dataset
+features <- imputed_data[ , !(names(imputed_data) %in% "int_rate")]
+
+# Calculate the mean and standard deviation for each feature
+feature_means <- sapply(features, mean)
+feature_sds <- sapply(features, sd)
+
+# Check if means are close to 0 and standard deviations are close to 1
+is_standardized <- all(abs(feature_means) < 1e-5) && all(abs(feature_sds - 1) < 1e-5)
+
+if (is_standardized) {
+  print("The data is approximately standardized.")
+} else {
+  print("The data is not standardized. the data will be standardized in Glmnet automatically.")
+}
+```
+
+### Ridge Regression 2
+```{r}
+x_train <- as.matrix(train_data[, setdiff(names(train_data), "int_rate")])
+
+# Set y_train to the int_rate column
+y_train <- train_data$int_rate
+
+# Fit ridge regression model (alpha = 0)
+ridge_model <- glmnet(x_train, y_train, alpha = 0)
+```
+
+Looking at how Lambda affects the model, there’s a clear pattern. As Lambda gets bigger, the model adds more bias. This extra bias means the model explains less of the variability in the output—this is shown by %Dev getting smaller. At the highest Lambda, %Dev drops to 0, turning the model into the "Null Model." This is the worst-case scenario where the model only predicts the intercept and ignores all the other predictors. 100 lambdas are listed.
+
+```{r}
+#plot the result
+plot(ridge_model, label=TRUE) 
+```
+
+From the plot we see that variable 18 (term_encoded) dominates all the models.
+
+```{r}
+# Parameter tuning 
+### Find the best model
+cv_ridge <- cv.glmnet(x_train, y_train, alpha = 0)
+
+```
+
+Lambda min is 0.1871 - already the smallest lambda gives the best result.
+
+```{r}
+plot(cv_ridge)
+
+idx_best <- which(cv_ridge$lambda == cv_ridge$lambda.min) # index of lambda.min
+(cvmse_best <- cv_ridge$cvm[idx_best]) # CV-MSE of the best model, here 10.58846
+(cvrmse_best <- sqrt(cvmse_best)) # The CV-RMSE of the best model is around 3.25%
+# Inspect the coefficient estimates of the best model
+coef(cv_ridge, s = "lambda.min")
+
+```
+
+#### Ridge Model evaluation on the test data
+```{r, eval=FALSE}
+x_test <- as.matrix(test_data[, setdiff(names(test_data), "int_rate")])
+
+# Set y_test to the int_rate column
+y_test <- test_data$int_rate
+
+# Make predictions on the test set
+pred.ridge <- predict(ridge_model, newx = x_test, s = cv_ridge$lambda.min)
+
+# If your response variable y_test is a single column, you can convert predictions to a vector
+predicted_values <- as.vector(pred.ridge)
+
+
+# Optionally, calculate the Mean Squared Error (MSE) or Root Mean Squared Error (RMSE)
+mse <- mean((predicted_values - y_test)^2)
+rmse <- sqrt(mse)
+
+# Print MSE and RMSE
+cat("Mean Squared Error (MSE):", mse, "\n") #CV-MSE on unseen data
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+```
+
+```{r, eval=FALSE}
+log_model_details("Ridge Regression Test set: CV", mse, rmse)
+
+```
+
+MSE on the unseen data is 10.54944; RMSE 3.24
+
+## Lasso Regression
+In this part we will explore Lasso regression.
+```{r}
+# use lasso regression; alpha = 1
+m_LASSO <- glmnet(x_train, y_train, alpha = 1)
+m_LASSO
+```
+
+Only 75 different values of Lambda are used, because glmnet() has a stop criterion.
+
+```{r}
+
+plot(m_LASSO, label=TRUE)
+```
+
+### Find the best LASSO model using CV
+```{r, eval=FALSE}
+(cv_LASSO <- cv.glmnet(x_train, y_train, alpha = 1))
+```
+
+Lambda min is 0.00192, while lambda min of Ridge was 0.19 - Lasso is using a smaller penalty, because it does subset selection at the same time.
+
+```{r, eval=FALSE}
+# Extract the CV RMSE of the best LASSO model
+idx_best_LASSO <- which(cv_LASSO$lambda == cv_LASSO$lambda.min) # index of lambda.min
+cvmse_best_LASSO <- cv_LASSO$cvm[idx_best_LASSO] # CV-MSE of the best model
+(cvrmse_best_LASSO <- sqrt(cvmse_best_LASSO)) # CV-RMSE of the best model 
+```
+
+### Lasso Model evaluation on the test data
+```{r, eval=FALSE}
+x_test <- as.matrix(test_data[, setdiff(names(test_data), "int_rate")])
+
+# Set y_test to the int_rate column
+y_test <- test_data$int_rate
+# Make predictions on the test set
+pred.lasso <- predict(m_LASSO, newx = x_test, s = cv_LASSO$lambda.min)
+
+# If your response variable y_test is a single column, you can convert predictions to a vector
+predicted_values <- as.vector(pred.lasso)
+
+
+# Calculate the Mean Squared Error (MSE) or Root Mean Squared Error (RMSE)
+mse <- mean((predicted_values - y_test)^2)
+rmse <- sqrt(mse)
+
+# Print MSE and RMSE
+cat("Mean Squared Error LASSO (MSE):", mse, "\n") #CV-MSE on unseen
+cat("Root Mean Squared Error LASSO (RMSE):", rmse, "\n")
+```
+
+
+```{r, eval=FALSE}
+log_model_details("LASSO Regression Test set: CV", mse, rmse)
+```
+
+
+## Decision Tree
+We used cost-complexity pruning to avoid overfitting. It applies a penalty by limiting the depth or complexity of the tree.
+We perform grid search to narrow down cp for fine tuning the pruning, cp is a complexity parameter and a trade-off between tree complexity and model accuracy. If cp is high the tree will be pruned more and when its low the tree can grow deeper with more splits.
+```{r decisiontree}
+# Define custom grid for cp
+cp_grid <- expand.grid(cp = seq(0.005, 0.02, by = 0.0025))
+
+# Define cross-validation with 10 folds
+train_control <- trainControl(method = "cv", number = 10)
+
+# Train the decision tree model with cross-validation and targeted cp tuning
+cv_refined_tree_model <- train(
+  as.formula(paste(target_variable, "~ .")),
+  data = train_data,
+  method = "rpart",
+  trControl = train_control,
+  tuneGrid = cp_grid
+)
+
+# Display the optimal cp value from cross-validation
+print(cv_refined_tree_model$bestTune)
+
+# Make predictions on the test set using the cross-validated model
+cv_refined_predictions <- predict(cv_refined_tree_model, newdata = test_data)
+
+# Calculate and print the Mean Squared Error (MSE) on the test data
+cv_refined_mse <- mean((test_data[[target_variable]] - cv_refined_predictions)^2)
+print(paste("Cross-Validated Refined Decision Tree MSE:", cv_refined_mse))
+
+# Calculate Root Mean Squared Error (RMSE) on the test data
+cv_refined_rmse <- sqrt(cv_refined_mse)
+print(paste("Cross-Validated Refined Decision Tree RMSE:", cv_refined_rmse))
+
+```
+
+
+```{r, eval=FALSE}
+# Log the cross-validated refined model details
+log_model_details(
+  "Cross-Validated Refined Decision Tree Model",
+  cv_refined_mse,
+  cv_refined_tree_model$finalModel$variable.importance
+)
+```
+
+### Feature Importance Plot
+```{r featureimportancerf}
+# Feature Importance Plot for the Refined Model
+importance_df <- data.frame(
+  Feature = names(cv_refined_tree_model$finalModel$variable.importance),
+  Importance = cv_refined_tree_model$finalModel$variable.importance
+)
+
+# Select top 10 features
+top10_importance_df <- importance_df[order(importance_df$Importance, decreasing = TRUE), ][1:10, ]
+
+# Plot the feature importance for the top 10 features
+ggplot(top10_importance_df, aes(x = reorder(Feature, Importance), y = Importance)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  xlab("Feature") +
+  ylab("Importance") +
+  ggtitle("Top 10 Feature Importance for Cross-Validated Refined Decision Tree")
+  
+```
+
+Decision Tree seems not to be a good model for this dataset. The MSE is even with grid search and cost-complexity pruning not going down and stays at 13.38 for the Test-MSE. Train/Test set was adjusted from 90/10 to 80/20 because it didn't make a difference.
+
+## Random Forest using Ranger
+To make the use of RandomForest with the Ranger module easier, we split our train and test data into X and y. 
+```{r train}
+X_train <- train_data[,-which(names(train_data) == "int_rate")]
+y_train <- train_data$int_rate
+
+X_test <- test_data[,-which(names(test_data) == 'int_rate')]
+y_test <- test_data$int_rate
+```
+
+In the next step, we train an initial random forest model with 20 trees, to see the initial performance.
+```{r rfmodel1}
+rf_model.fit1 <- ranger(y = y_train , x = X_train, num.trees = 20)
+rf_model_pred <- predict(rf_model.fit1, data = test_data)$predictions
+mse_rf_model_1 <- mean((rf_model_pred - y_test)^2)
+rmse_rf_model_1 <- sqrt(mse_rf_model_1)
+print(rmse_rf_model_1)
+print(mse_rf_model_1)
+```
+
+
+```{r, eval=FALSE}
+log_model_details("Random Forest with 20 trees:", mse_rf_model_1, summary(rf_model.fit1))
+```
+
+We achieve an RMSE of 3.09 and an MSE of 9.59. 
+
+```{r rfmodel2}
+cat("Starting rfmodel-fit2 chunk\n")
+rf_model.fit2 <- ranger(y = y_train , x = x_train, num.trees = 100)
+rf_model_pred <- predict(rf_model.fit2, data = test_data)$predictions
+mse_rf_model <- mean((rf_model_pred - y_test)^2)
+print(mse_rf_model)
+cat("finished rfmodel-fit2 chunk\n")
+```
+
+
+```{r, eval=FALSE}
+log_model_details("Random Forest with 100 trees:", mse_rf_model, summary(rf_model.fit2))
+```
+
+With an MSE of 9.21, this model already performs a bit better than the previous one, so we will try another one with higher number of trees. We will also try to have a look at whether a different number of features makes a difference.
+
+We also try running a grid search with some pre-selected hyperparameters.
+```{r hyperparameter, eval=FALSE}
+train_control <- trainControl(method = "cv", number = 5)
+
+# Define hyperparameter grid
+tune_grid <- expand.grid(
+  mtry = c(2, 4, 6),           # Number of variables randomly sampled at each split
+  splitrule = "variance",       # Split rule (for regression tasks, use "variance")
+  min.node.size = c(5, 10, 15)  # Minimum node size
+)
+
+# Perform grid search
+rf_grid_search <- train(
+  y = y_train,                 # Dependent variable
+  x = x_train,                 # Feature matrix
+  method = "ranger",           # Use the ranger package
+  trControl = train_control,   # Use 5-fold cross-validation
+  tuneGrid = tune_grid,        # The grid of hyperparameters to tune
+  num.trees = 100,             # Number of trees
+  importance = "impurity"      # Calculate variable importance
+)
+
+# Display the results
+print(rf_grid_search)
+
+# Best hyperparameters
+print(rf_grid_search$bestTune)
+
+# Plot the performance across hyperparameter combinations
+plot(rf_grid_search)
+
+# Predict with the best model
+rf_model_pred <- predict(rf_grid_search, newdata = test_data)
+
+# Calculate MSE and RMSE
+mse_rf_model <- mean((rf_model_pred - y_test)^2)
+rmse_rf_model <- sqrt(mse_rf_model)
+
+print(rmse_rf_model)
+print(mse_rf_model)
+```
+With this, we achieve a RMSE of 3.079022 and an MSE of 9.480376. We log this to our Log File.
+We add eval= FALSE to avoid running it again during knitting.
+
+```{r, eval=FALSE}
+log_model_details("Random Forest with 100 trees & Grid Search:", mse_rf_model, "mtry 6,	splitrule variance,	min.node.size 5")
+```
+
+This MSE is not better than the one with 100 trees and no grid search, so we might not have given the optimal hyperparameters to be chosen from in the grid search. 
+In the next step, we try to train another RandomForest model with 500 trees, to see whether more trees could help the performance on our model.
+```{r rfmodelfit3, eval= FALSE}
+rf_model.fit3 <- ranger(y = y_train , x = x_train, num.trees = 500)
+rf_model_pred <- predict(rf_model.fit3, data = test_data)$predictions
+mse_rf_model <- mean((rf_model_pred - y_test)^2)
+print(mse_rf_model)
+```
+
+
+```{r, eval=FALSE}
+log_model_details("Random Forest with 500 trees:", mse_rf_model, summary(rf_model.fit3))
+```
+
+
+## XGBoost
+
+```{r xgboost}
+cat("Starting xgboost chunk\n")
+# Prepare the data for XGBoost (XGBoost requires matrix format for predictors)
+train_matrix <- as.matrix(train_data[, -which(names(train_data) == target_variable)])
+train_label <- train_data[[target_variable]]
+
+test_matrix <- as.matrix(test_data[, -which(names(test_data) == target_variable)])
+test_label <- test_data[[target_variable]]
+
+# Create the matrix object
+dtrain <- xgb.DMatrix(data = train_matrix, label = train_label)
+dtest <- xgb.DMatrix(data = test_matrix, label = test_label)
+
+# Set XGBoost parameters 
+params <- list(
+  objective = "reg:squarederror",
+  eta = 0.1,  # Learning rate
+  max_depth = 6,  # Maximum depth of a tree
+  subsample = 0.7,  
+  colsample_bytree = 0.7  
+)
+
+# Train the XGBoost model
+xgb_model.fit1 <- xgb.train(
+  params = params,
+  data = dtrain,
+  nrounds = 100,  # Number of boosting rounds
+  watchlist = list(train = dtrain, test = dtest),
+  early_stopping_rounds = 10,  # Stop if no improvement after 10 rounds
+  verbose = 1
+)
+
+# Make predictions on the test data
+test_predictions <- predict(xgb_model.fit1, newdata = dtest)
+
+# Calculate the MSE for the test data
+test_mse <- mean((test_label - test_predictions)^2)
+print(paste("Test Mean Squared Error:", test_mse))
+
+# Make predictions on the training data
+train_predictions <- predict(xgb_model.fit1, newdata = dtrain)
+
+# Calculate the MSE for the training data
+train_mse <- mean((train_label - train_predictions)^2)
+print(paste("Train Mean Squared Error:", train_mse))
+cat("finished xgboost chunk\n")
+
+```
+
+
+```{r, eval=FALSE}
+log_model_details("XGBoost 1", test_mse, xgb_model.fit1$coefficients)
+```
+
+We want to have a closer look at the feature importance. Because our initial plot was not very well readable, so we display only the top 20 features.
+
+### Feature Importance
+```{r feature importance}
+# Increase plot size and improve visibility of labels
+importance <- xgb.importance(model = xgb_model.fit1)
+
+# Plot the feature importance with larger text and adjusted plot size
+xgb.plot.importance(
+  importance_matrix = importance, 
+  rel_to_first = TRUE,    # Normalize the importance scores relative to the highest score
+  xlab = "Relative Importance",  # Add X-axis label
+  top_n = 20,             # Display only the top 20 features 
+  cex = 0.8,              # Increase text size for better visibility
+  cex.lab = 1.2,          # Increase label size
+  cex.axis = 1.1,         # Increase axis text size
+  main = "Feature Importance"  # Add a title to the plot
+)
+```
+
+### Plot the Model Fit
+In the next step, we would like to look at the diagnostic plot of the XGBoost model.
+```{r modelfit}
+# Plot Actual vs Predicted
+plot(test_data$int_rate, test_predictions, xlab = "Actual Interest Rate", ylab = "Predicted Interest Rate", main = "XGBoost: Actual vs Predicted")
+abline(0, 1, col = "red")  # Line for perfect fit
+```
+
+From this plot, we get the following information:
+
+- most points seem close to the red line -> generally good prediction accuracy (especially for low to medium interest rates)
+- with increasing interest rates, the prediction gets less accurate -> model tends to underpredict interest rates, especially for higher actual values.
+
+## Bayesian Optimizer with XGBoost
+### First Implementation
+In the next step we want to try to optimise the hyperparameters of the XGBoost model. To do this, we use the ParBayesianOptimization package. Documentation of this package can be found at https://github.com/AnotherSamWilson/ParBayesianOptimization#Hyperparameter-Tuning. 
+
+First, we define the 3 folds.
+```{r, eval=FALSE}
+Folds <- list(
+    Fold1 = as.integer(seq(1, nrow(train_data), by = 3)),
+    Fold2 = as.integer(seq(2, nrow(train_data), by = 3)),
+    Fold3 = as.integer(seq(3, nrow(train_data), by = 3))
+)
+```
+
+In the next step, we define our scoring function for the Bayesian Optimization.
+```{r, eval=FALSE}
+scoringFunction <- function(eta, max_depth, min_child_weight, subsample, colsample_bytree) {
+
+  dtrain <- xgb.DMatrix(data = as.matrix(train_data[, !names(train_data) %in% "int_rate"]),
+                        label = train_data$int_rate)
+
+  Pars <- list(
+      booster = "gbtree",
+      eta = eta,  # Learning rate parameter
+      max_depth = max_depth,
+      min_child_weight = min_child_weight,
+      subsample = subsample,
+      colsample_bytree = colsample_bytree,  # New parameter for controlling the fraction of features used
+      objective = "reg:squarederror",  # Regression objective for interest rate prediction
+      eval_metric = "rmse"  # Root mean square error for regression tasks
+  )
+
+  xgbcv <- xgb.cv(
+      params = Pars,
+      data = dtrain,
+      nround = 100,
+      folds = Folds,
+      early_stopping_rounds = 5,
+      maximize = FALSE,  # RMSE minimization
+      verbose = 0
+  )
+
+  return(list(Score = min(xgbcv$evaluation_log$test_rmse_mean),
+              nrounds = xgbcv$best_iteration)
+         )
+}
+```
+The following are the bounds for the optimization we defined. Between the lower and the upper bound, the optimizer will look for the optimal hyperparameter.
+```{r, eval=FALSE}
+bounds <- list(
+  eta = c(0.001, 0.3),  # Learning rate: Small values for gradual convergence, larger for faster but riskier training
+  max_depth = c(3L, 10L),  # Max tree depth: Smaller to avoid overfitting, larger for more complex relationships
+  min_child_weight = c(1, 10),  # Minimum child weight: Higher values reduce overfitting
+  subsample = c(0.5, 1.0),  # Subsample: Fraction of training data to use in each boosting round
+  colsample_bytree = c(0.5, 1.0)  # Colsample by tree: Fraction of features to be randomly sampled for each tree
+)
+```
+
+In the next code snippet, we run the optimisation with the scoring function and bounds we previously defined.
+```{r, eval=FALSE}
+set.seed(42)
+
+tNoPar <- system.time(
+  optObj <- bayesOpt(
+    FUN = scoringFunction,
+    bounds = bounds,
+    initPoints = 10,
+    iters.n = 10,
+    iters.k = 1
+  )
+)
+```
+The best parameters are saved in the optObj, so we display them.
+```{r, eval=FALSE}
+getBestPars(optObj)
+```
+
+The suggested hyperparameters are eta = 0.001, max_depth = 10, min_child_weight = 2.586, subsample = 1 and colsample_bytree = 0.5.
+(We excluded these chunks from running using eval= FALSE because they ran very long.)
+
+We want to know what exactly the optimizer did to get these hyperparameters.
+```{r, eval=FALSE}
+optimizer_summary <- optObj$scoreSummary
+View(optimizer_summary)
+```
+
+We can see in the optimizer_summary that the eta is very inconsistent, because the bounds are too big and not enough iterations of the optimizer are done to properly improve the hyperparameter. This is why we now decide to take eta out of the optimization and define it as 0.1, because the initial model with this value performed well. 
+```{r, eval=FALSE}
+train_matrix <- xgb.DMatrix(data = as.matrix(train_data[, !(names(train_data) %in% "int_rate")]), label = train_data$int_rate)
+test_matrix <- xgb.DMatrix(data = as.matrix(test_data[, !(names(test_data) %in% "int_rate")]), label = test_data$int_rate)
+
+
+# Set XGBoost parameters
+params <- list(
+  objective = "reg:squarederror",  # for regression
+  eta = 0.1,
+  colsample_bytree = 0.5,
+  max_depth = 10,                   # max tree depth
+  min_child_weight = 2.586204,     # minimum sum of instance weight (hessian) needed in a child
+  subsample = 1           # percentage of data used per tree
+)
+
+# Train the XGBoost model
+xgb_model.fit2 <- xgb.train(
+  params = params,
+  data = train_matrix,
+  nrounds = 1500,  # number of boosting rounds
+  watchlist = list(train = train_matrix, test = test_matrix),
+  early_stopping_rounds = 10,  # to stop early if no improvement
+  print_every_n = 10
+)
+
+# Predict on the test data
+test_pred <- predict(xgb_model.fit2, newdata = test_matrix)
+
+# Calculate RMSE and MSE
+rmse <- sqrt(mean((test_pred - test_data[, target_column])^2))
+mse <- mean((test_pred - test_data[, target_column])^2)
+
+# Print results
+cat("RMSE:", rmse, "\n")
+cat("MSE:", mse, "\n")
+
+log_model_details("XGBoost 2", mse, summary(xgb_model.fit2))
+```
+
+With this, we achieve an RMSE of 2.83 and an MSE of 8.0125. This is the best performance yet.
+
+### 10-fold Cross-Validation
+We want to run 10-fold cross-validation to fint the optimum number of boosting rounds.
+```{r, eval=FALSE}
+params <- list(
+  objective = "reg:squarederror",
+  eta = 0.1,
+  colsample_bytree = 0.5,
+  max_depth = 10,
+  min_child_weight = 2.586204,
+  subsample = 1
+)
+
+# Set up 10-fold cross-validation
+xgb_cv <- xgb.cv(
+  params = params,
+  data = train_matrix,       
+  nfold = 10,                  # Number of folds for cross-validation
+  nrounds = 1500,         
+  early_stopping_rounds = 10,  # Stop if no improvement
+  print_every_n = 10,          # so we can see the change of the rmse for train and test
+  metrics = "rmse",            # Root Mean Squared Error
+  maximize = FALSE,           
+  watchlist = list(train = train_matrix)
+)
+
+# Check results
+print(xgb_cv)
+
+```
+
+We see that the best iteration of the 10-fold cross-validation was the 502 iteration, achieving a train-rmse of 2.29 and a test-rmse of 2.82.
+So we train our model with 502 iterations:
+
+```{r}
+# Get the best number of rounds from cross-validation
+#best_nrounds <- xgb_cv$best_iteration
+best_nrounds <- 502
+
+# Train the final model using the entire training data and the optimal number of rounds
+xgb_model_cv.fit1 <- xgb.train(
+  params = params,
+  data = dtrain,
+  nrounds = best_nrounds,        # Use the best number of boosting rounds from CV
+  watchlist = list(train = dtrain),
+  print_every_n = 10
+)
+
+# Predict on the test data
+test_pred <- predict(xgb_model_cv.fit1, newdata = test_matrix)
+```
+```{r}
+
+# Correcting the code with appropriate column referencing
+rmse <- sqrt(mean((test_pred - test_data[["int_rate"]])^2)) # Use [[ to access a column by name
+mse <- mean((test_pred - test_data[["int_rate"]])^2)
+
+# Print results
+cat("RMSE:", rmse, "\n")
+cat("MSE:", mse, "\n")
+
+```
+
+
+```{r, eval=FALSE}
+log_model_details("XGBoost after 10-fold CV", mse, params)
+```
+
+With nrounds = 502, we achieve an RMSE of 2.84 and an MSE of 8.09. We assume that this is probably the best we can optimize our model to.
+We decide that this is the model we want to use and train it with the whole dataset, so we can then export that model to be used for the secret data.
+
+# Training the Final Model on the whole Dataset
+Because we want to maximise the data that can be learnt from for our model, we train the final model on the whole dataset. 
+We use the params we got by the Bayesian Optimizer.
+We then export the model to a .rds file. This model will then be loaded in the reality check file, so it can be used for the secret data as well.
+```{r, eval=FALSE}
+set.seed(42)
+best_nrounds <- 502
+params <- list(
+  objective = "reg:squarederror",
+  eta = 0.1,
+  colsample_bytree = 0.5,
+  max_depth = 10,
+  min_child_weight = 2.586204,
+  subsample = 1
+)
+
+imputed_data <- read.csv("../experiments/Assignment1/imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
+
+imputed_data <- imputed_data[, sort(colnames(imputed_data)), drop = FALSE]
+```
+
+
+```{r, eval = FALSE}
+full_matrix <- xgb.DMatrix(data = as.matrix(imputed_data[, -which(names(imputed_data) == "int_rate")]),
+                           label = imputed_data[["int_rate"]])
+
+final_model <- xgb.train(
+  params = params,
+  data = full_matrix,
+  nrounds = best_nrounds,
+  watchlist = list(full = full_matrix),
+  print_every_n = 10
+)
+```
+
+
+```{r, eval = FALSE}
+saveRDS(final_model, "final_model_xgb.rds")
+
+cat("Model saved successfully as 'final_model_xgb.rds'.\n")
+```
+
+

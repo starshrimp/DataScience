@@ -1,0 +1,1548 @@
+------------------
+Try Number: 1
+
+Accuracy Metrics:
+Train Accuracy: 0.870830059051514
+Validation Accuracy: 0.826875686645508
+Test Accuracy: 0.818307340145111
+---
+Loss Metrics:
+Train Loss: 0.392957508563995
+Validation Loss: 0.562378704547882
+Test Loss: 0.818307340145111
+
+Model Description:
+4 dense layers with 256 units each (ReLU activation), Dropout (rates: 0.25, 0.15, 0.10), Batch Normalization after first two layers, final dense layer with 8 units (Softmax activation), Optimizer: Nadam, Loss: Categorical Crossentropy
+------------------
+
+
+------------------
+Try Number: 3
+
+Accuracy Metrics:
+Train Accuracy: 0.908478200435638
+Validation Accuracy: 0.840776860713959
+Test Accuracy: 0.830341279506683
+---
+Loss Metrics:
+Train Loss: 0.253830641508102
+Validation Loss: 0.546828329563141
+Test Loss: 0.830341279506683
+
+Model Description:
+4 dense layers with 256 units each (ReLU activation), Dropout (rates: 0.25, 0.15, 0.10), Batch Normalization after first two layers, final dense layer with 8 units (Softmax activation), Optimizer: Nadam, Loss: Categorical Crossentropy, Metrics: Categorical Accuracy and Accuracy, non-class weighted, log-transformed features: AMOUNT_INC_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS.
+------------------
+
+------------------
+Try Number: 2^4
+
+Accuracy Metrics:
+Train Accuracy: 0.813216984272003
+Validation Accuracy: 0.809918165206909
+Test Accuracy: 0.804695188999176
+---
+Loss Metrics:
+Train Loss: 0.537295699119568
+Validation Loss: 0.56934243440628
+Test Loss: 0.804695188999176
+
+Model Description:
+sequential neural network with 3 dense layers (128, 64, 32 units) using ReLU activations, batch normalization, and dropout (0.3, 0.2 rates) for regularization, followed by an 8-unit softmax output; trained with Adam optimizer with exponential learning rate decay, using early stopping for better convergence over 1000 epochs.
+------------------
+
+------------------
+Try Number: 5
+
+Accuracy Metrics:
+Train Accuracy: 0.890351355075836
+Validation Accuracy: 0.842945873737335
+Test Accuracy: 0.832116782665253
+---
+Loss Metrics:
+Train Loss: 0.303995370864868
+Validation Loss: 0.532940149307251
+Test Loss: 0.832116782665253
+
+Model Description:
+4 relu layers: 256/0.25/256/0.2/256/0.2/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS
+------------------
+
+------------------
+Try Number: 6
+
+Accuracy Metrics:
+Train Accuracy: 0.848731338977814
+Validation Accuracy: 0.843931794166565
+Test Accuracy: 0.83053857088089
+---
+Loss Metrics:
+Train Loss: 0.467378199100494
+Validation Loss: 0.52912038564682
+Test Loss: 0.83053857088089
+
+Model Description:
+4 relu layers: 256(0.01 l2 regularizer)/0.25/256/0.25/256/0.2/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> does not overfit but not learn so well (yet?)
+------------------
+------------------
+Try Number: 7
+
+Accuracy Metrics:
+Train Accuracy: 0.905203580856323
+Validation Accuracy: 0.845114886760712
+Test Accuracy: 0.822746098041534
+---
+Loss Metrics:
+Train Loss: 0.325056225061417
+Validation Loss: 0.580821335315704
+Test Loss: 0.822746098041534
+
+Model Description:
+4 relu layers: 256(0.005 l2 regularizer)/0.15/256/0.15/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> overfits a bit but learns better
+------------------
+
+------------------
+Try Number: 8
+
+Accuracy Metrics:
+Train Accuracy: 0.898273944854736
+Validation Accuracy: 0.851621806621552
+Test Accuracy: 0.827776670455933
+---
+Loss Metrics:
+Train Loss: 0.383088380098343
+Validation Loss: 0.613747835159302
+Test Loss: 0.827776670455933
+
+Model Description:
+4 relu layers: 256(0.005 l2 regularizer)/0.15/256 (0.005 regularizer l2)/0.10/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> overfits a bit but learns better
+------------------
+
+------------------
+Try Number: 9
+
+Accuracy Metrics:
+Train Accuracy: 0.919569849967957
+Validation Accuracy: 0.849551439285278
+Test Accuracy: 0.83517462015152
+---
+Loss Metrics:
+Train Loss: 0.316230744123459
+Validation Loss: 0.641344308853149
+Test Loss: 0.83517462015152
+
+Model Description:
+4 relu layers: 256(0.005 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.10/256/0.05/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> overfits a bit but learns better
+------------------
+
+------------------
+Try Number: 10
+
+Accuracy Metrics:
+Train Accuracy: 0.919421970844269
+Validation Accuracy: 0.845016241073608
+Test Accuracy: 0.820576071739197
+---
+Loss Metrics:
+Train Loss: 0.320655882358551
+Validation Loss: 0.673968017101288
+Test Loss: 0.820576071739197
+
+Model Description:
+4 relu layers: 256(0.002 l2 regularizer)/0.15/256 (0.002 regularizer l2)/0.10/256/0.05/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> overfits a bit but learns better
+------------------
+
+------------------
+Try Number: 11
+
+Accuracy Metrics:
+Train Accuracy: 0.898041546344757
+Validation Accuracy: 0.841171264648438
+Test Accuracy: 0.822055637836456
+---
+Loss Metrics:
+Train Loss: 0.398997038602829
+Validation Loss: 0.661908149719238
+Test Loss: 0.822055637836456
+
+Model Description:
+4 relu layers: 256(0.002 l2 regularizer)/0.15/256 (0.002 regularizer l2)/0.10/256/0.05/128; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS -> overfits a bit but learns better
+------------------
+
+------------------
+Try Number: 12
+
+Accuracy Metrics:
+Train Accuracy: 0.917647302150726
+Validation Accuracy: 0.842748701572418
+Test Accuracy: 0.827283501625061
+---
+Loss Metrics:
+Train Loss: 0.327004134654999
+Validation Loss: 0.658504486083984
+Test Loss: 0.827283501625061
+
+Model Description:
+4 relu layers: 256(0.002 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.10/256/0.05/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS 
+------------------
+
+------------------
+Try Number: 13
+
+Accuracy Metrics:
+Train Accuracy: 0.921851575374603
+Validation Accuracy: 0.842551529407501
+Test Accuracy: 0.82471889257431
+---
+Loss Metrics:
+Train Loss: 0.320337921380997
+Validation Loss: 0.672740995883942
+Test Loss: 0.82471889257431
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.10/256/0.05/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; non-class weighted, 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN, CNT_FAM_MEMBERS 
+------------------
+
+
+
+Many not-logged tries with SMOTE that were so bad that these attempts were not logged.
+
+------------------
+Try Number: 14
+
+Accuracy Metrics:
+Train Accuracy: 0.917752921581268
+Validation Accuracy: 0.841565608978271
+Test Accuracy: 0.846616685390472
+---
+Loss Metrics:
+Train Loss: 0.337179213762283
+Validation Loss: 0.63306188583374
+Test Loss: 0.846616685390472
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.10/256/0.10/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_CHILDREN; dropped feature CNT_FAM_MEMBERS, No SMOTE,
+------------------
+
+------------------
+Try Number: 15
+
+Accuracy Metrics:
+Train Accuracy: 0.917351543903351
+Validation Accuracy: 0.856255531311035
+Test Accuracy: 0.794436752796173
+---
+Loss Metrics:
+Train Loss: 0.338309615850449
+Validation Loss: 0.607108175754547
+Test Loss: 0.794436752796173
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.10/256/0.10/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_CHILDREN, No SMOTE,
+------------------
+
+------------------
+Try Number: 16
+
+Accuracy Metrics:
+Train Accuracy: 0.900259852409363
+Validation Accuracy: 0.853593587875366
+Test Accuracy: 0.847405791282654
+---
+Loss Metrics:
+Train Loss: 0.378445386886597
+Validation Loss: 0.568071365356445
+Test Loss: 0.847405791282654
+
+Model Description:
+4 relu layers: 256(0.005 l2 regularizer)/0.20/256 (0.001 regularizer l2)/0.15/256/0.10/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_CHILDREN, No SMOTE, AGE und EMPLOYMENT YEARS anstatt DAYS_BIRTH und DAYS_EMPLOYED
+------------------
+
+------------------
+Try Number: 17
+
+Accuracy Metrics:
+Train Accuracy: 0.902900695800781
+Validation Accuracy: 0.853987991809845
+Test Accuracy: 0.734464406967163
+---
+Loss Metrics:
+Train Loss: 0.372451514005661
+Validation Loss: 0.60282564163208
+Test Loss: 0.734464406967163
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.15/256 (0.001 regularizer l2)/0.15/256/0.10/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_CHILDREN, No SMOTE, AGE und EMPLOYMENT YEARS anstatt DAYS_BIRTH und DAYS_EMPLOYED, IS_EMPLOYED as binary feature
+------------------
+
+------------------
+Try Number: 18
+
+Accuracy Metrics:
+Train Accuracy: 0.863076508045197
+Validation Accuracy: 0.851818978786469
+Test Accuracy: 0.849477231502533
+---
+Loss Metrics:
+Train Loss: 0.485384434461594
+Validation Loss: 0.569871544837952
+Test Loss: 0.849477231502533
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.2/256 (0.001 regularizer l2)/0.2/256/0.2/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_CHILDREN, No SMOTE, preprocessing:         ___________________________ data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    AGE = -DAYS_BIRTH / 365,
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN),
+  ) %>%
+  select(-DAYS_BIRTH, -CNT_FAM_MEMBERS)
+------------------
+
+------------------
+Try Number: 19
+
+Accuracy Metrics:
+Train Accuracy: 0.870576560497284
+Validation Accuracy: 0.858720302581787
+Test Accuracy: 0.846024870872498
+---
+Loss Metrics:
+Train Loss: 0.464408546686172
+Validation Loss: 0.552978098392487
+Test Loss: 0.846024870872498
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.2/256 (0.001 regularizer l2)/0.2/256/0.2/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_CHILDREN, No SMOTE
+Data Preprocessing:
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+data_final <- data_final %>%
+  mutate(DAYS_EMPLOYED = DAYS_EMPLOYED_BOXCOX)
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+------------------
+
+------------------
+Try Number: 20
+
+Accuracy Metrics:
+Train Accuracy: 0.91511207818985
+Validation Accuracy: 0.857044279575348
+Test Accuracy: 0.857565581798553
+---
+Loss Metrics:
+Train Loss: 0.342335224151611
+Validation Loss: 0.61567884683609
+Test Loss: 0.857565581798553
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.1/256 (0.0005 regularizer l2)/0.1/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_FAM_MEMBERS, No SMOTE
+Data Preprocessing:
+
+# Create numeric vectors without NA values for DAYS_EMPLOYED, DAYS_BIRTH, etc.
+days_employed_numeric_no_na <- na.omit(as.numeric(abs(data_final$DAYS_EMPLOYED)))
+days_birth_numeric_no_na <- na.omit(as.numeric(abs(data_final$DAYS_BIRTH)))
+amt_income_total_no_na <- na.omit(data_final$AMT_INCOME_TOTAL + 1)
+cnt_children_no_na <- na.omit(data_final$CNT_CHILDREN + 1)
+
+# Calculate optimal lambdas using powerTransform from car package
+lambda_days_employed <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda
+lambda_days_birth <- car::powerTransform(days_birth_numeric_no_na + 1)$lambda
+lambda_amt_income_total <- car::powerTransform(amt_income_total_no_na)$lambda
+lambda_cnt_children <- car::powerTransform(cnt_children_no_na)$lambda
+
+# Apply BoxCox transformations using the computed lambdas
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = BoxCox(DAYS_EMPLOYED + 1, lambda = lambda_days_employed),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    DAYS_BIRTH = BoxCox(DAYS_BIRTH + 1, lambda = lambda_days_birth),
+    AMT_INCOME_TOTAL = BoxCox(AMT_INCOME_TOTAL + 1, lambda = lambda_amt_income_total),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = BoxCox(CNT_CHILDREN + 1, lambda = lambda_cnt_children)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+------------------
+
+------------------
+Try Number: 21
+
+Accuracy Metrics:
+Train Accuracy: 0.915471255779266
+Validation Accuracy: 0.857142865657806
+Test Accuracy: 0.855987370014191
+---
+Loss Metrics:
+Train Loss: 0.33084699511528
+Validation Loss: 0.608195066452026
+Test Loss: 0.855987370014191
+
+Model Description:
+4 relu layers: 256(0.001 l2 regularizer)/0.1/256 (0.0005 regularizer l2)/0.1/256/0.1/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_FAM_MEMBERS, No SMOTE
+Data Preprocessing:
+
+# Create numeric vectors without NA values for DAYS_EMPLOYED, DAYS_BIRTH, etc.
+days_employed_numeric_no_na <- na.omit(as.numeric(abs(data_final$DAYS_EMPLOYED)))
+days_birth_numeric_no_na <- na.omit(as.numeric(abs(data_final$DAYS_BIRTH)))
+amt_income_total_no_na <- na.omit(data_final$AMT_INCOME_TOTAL + 1)
+cnt_children_no_na <- na.omit(data_final$CNT_CHILDREN + 1)
+
+# Calculate optimal lambdas using powerTransform from car package
+lambda_days_employed <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda
+lambda_days_birth <- car::powerTransform(days_birth_numeric_no_na + 1)$lambda
+lambda_amt_income_total <- car::powerTransform(amt_income_total_no_na)$lambda
+lambda_cnt_children <- car::powerTransform(cnt_children_no_na)$lambda
+
+# Apply BoxCox transformations using the computed lambdas
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = BoxCox(DAYS_EMPLOYED + 1, lambda = lambda_days_employed),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    DAYS_BIRTH = BoxCox(DAYS_BIRTH + 1, lambda = lambda_days_birth),
+    AMT_INCOME_TOTAL = BoxCox(AMT_INCOME_TOTAL + 1, lambda = lambda_amt_income_total),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = BoxCox(CNT_CHILDREN + 1, lambda = lambda_cnt_children)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+
+
+
+manually added: probably not the correct data preprocessing!! probably the one above that
+
+------------------
+
+------------------
+Try Number: 22
+
+Accuracy Metrics:
+Train Accuracy: 0.900978147983551
+Validation Accuracy: 0.860987901687622
+Test Accuracy: 0.857368290424347
+---
+Loss Metrics:
+Train Loss: 0.387280881404877
+Validation Loss: 0.577814400196075
+Test Loss: 0.857368290424347
+
+Model Description:
+4 relu layers: 512(0.001 l2 regularizer)/0.3/512 (0.001 regularizer l2)/0.1/256/0.1/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_FAM_MEMBERS, No SMOTE
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    #DAYS_BIRTH = log1p(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+
+------------------
+
+------------------
+Try Number: 23
+
+Accuracy Metrics:
+Train Accuracy: 0.886949896812439
+Validation Accuracy: 0.861086487770081
+Test Accuracy: 0.852337718009949
+---
+Loss Metrics:
+Train Loss: 0.426204890012741
+Validation Loss: 0.567603051662445
+Test Loss: 0.852337718009949
+
+Model Description:
+4 relu layers: 512(0.002 l2 regularizer)/0.3/512 (0.002 regularizer l2)/0.3/512/0.3/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 250 epochs 128 batch size, log transformation AMT_INCOME_TOTAL, CNT_FAM_MEMBERS; dropped feature CNT_FAM_MEMBERS, No SMOTE
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    #DAYS_BIRTH = log1p(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+
+------------------
+
+------------------
+Try Number: 24
+
+Accuracy Metrics:
+Train Accuracy: 0.929203748703003
+Validation Accuracy: 0.862072348594666
+Test Accuracy: 0.859735667705536
+---
+Loss Metrics:
+Train Loss: 0.281970411539078
+Validation Loss: 0.599896311759949
+Test Loss: 0.859735667705536
+
+Model Description:
+4 relu layers: 512(0.002 l2 regularizer)/0.15/512 (0.002 regularizer l2)/0.15/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 128 batch size
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    #DAYS_BIRTH = log1p(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+
+------------------
+
+------------------
+Try Number: 25
+
+Accuracy Metrics:
+Train Accuracy: 0.942091166973114
+Validation Accuracy: 0.860987901687622
+Test Accuracy: 0.860820651054382
+---
+Loss Metrics:
+Train Loss: 0.235437229275703
+Validation Loss: 0.599933624267578
+Test Loss: 0.860820651054382
+
+Model Description:
+4 relu layers: 512(0.002 l2 regularizer)/0.15/512 (0.002 regularizer l2)/0.15/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 128 batch size
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    #DAYS_BIRTH = log1p(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+
+------------------
+
+------------------
+Try Number: 26
+
+Accuracy Metrics:
+Train Accuracy: 0.939999580383301
+Validation Accuracy: 0.862072348594666
+Test Accuracy: 0.856677830219269
+---
+Loss Metrics:
+Train Loss: 0.250047713518143
+Validation Loss: 0.598914861679077
+Test Loss: 0.856677830219269
+
+Model Description:
+4 relu layers: 512(0.003 l2 regularizer)/0.15/512 (0.003 regularizer l2)/0.15/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 128 batch size
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    #DAYS_BIRTH = log1p(DAYS_BIRTH),
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS)
+
+# Remove NA values to prepare for Box-Cox transformation
+days_employed_numeric <- data_final$DAYS_EMPLOYED
+days_employed_numeric_no_na <- days_employed_numeric[!is.na(days_employed_numeric)]
+
+# Perform Box-Cox transformation
+lambda <- car::powerTransform(days_employed_numeric_no_na + 1)$lambda  # Determine optimal lambda
+days_employed_transformed <- bcPower(days_employed_numeric_no_na + 1, lambda = lambda)
+
+# Replace original values in data_final
+data_final$DAYS_EMPLOYED_BOXCOX <- NA  # Initialize with NA
+data_final$DAYS_EMPLOYED_BOXCOX[!is.na(data_final$DAYS_EMPLOYED)] <- days_employed_transformed
+
+# Optionally, drop the DAYS_EMPLOYED_BOXCOX column if it's no longer needed
+data_final <- data_final %>%
+  select(-DAYS_EMPLOYED_BOXCOX)
+
+------------------
+
+------------------
+Try Number: 25
+
+Accuracy Metrics:
+Train Accuracy: 0.912006437778473
+Validation Accuracy: 0.844523310661316
+Test Accuracy: 0.842079281806946
+---
+Loss Metrics:
+Train Loss: 0.347931504249573
+Validation Loss: 0.638906478881836
+Test Loss: 0.842079281806946
+
+Model Description:
+4 relu layers: 512(0.003 l2 regularizer)/0.15/512 (0.003 regularizer l2)/0.15/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 128 batch size
+Data Preprocessing:
+
+percentile_99_children <- quantile(data_final$CNT_CHILDREN, 0.99)
+percentile_99_fam_members <- quantile(data_final$CNT_FAM_MEMBERS, 0.99)
+
+# Updating pipeline to include capping at the 99th percentile
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    CNT_CHILDREN = pmin(CNT_CHILDREN, percentile_99_children),
+    CNT_FAM_MEMBERS = pmin(CNT_FAM_MEMBERS, percentile_99_fam_members)
+  )
+
+------------------
+
+------------------
+Try Number: 26
+
+Accuracy Metrics:
+Train Accuracy: 0.924978315830231
+Validation Accuracy: 0.864734292030334
+Test Accuracy: 0.851844549179077
+---
+Loss Metrics:
+Train Loss: 0.327665001153946
+Validation Loss: 0.600966513156891
+Test Loss: 0.851844549179077
+
+Model Description:
+4 relu layers: 512(0.003 l2 regularizer)/0.25/512 (0.003 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 128 batch size
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    YEARS_EMPLOYED = DAYS_EMPLOYED / 365,
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    AGE = DAYS_BIRTH / 365,
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS, -DAYS_EMPLOYED, -DAYS_BIRTH)
+
+------------------
+
+------------------
+Try Number: 27
+
+Accuracy Metrics:
+Train Accuracy: 0.94976019859314
+Validation Accuracy: 0.865917384624481
+Test Accuracy: 0.863878488540649
+---
+Loss Metrics:
+Train Loss: 0.22314840555191
+Validation Loss: 0.591106712818146
+Test Loss: 0.863878488540649
+
+Model Description:
+4 relu layers: 512(0.003 l2 regularizer)/0.25/512 (0.003 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    YEARS_EMPLOYED = DAYS_EMPLOYED / 365,
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    AGE = DAYS_BIRTH / 365,
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS, -DAYS_EMPLOYED, -DAYS_BIRTH)
+
+------------------
+
+
+
+
+
+
+
+
+
+
+I realised I made a mistake during preprocessing: I normalized the datasets after the split with their own min and max instead of normalizing them using the min and max of the train set!! So I corrected it. 
+
+
+
+------------------
+Try Number: 28 BEST
+
+Accuracy Metrics:
+Train Accuracy: 0.950668692588806
+Validation Accuracy: 0.869170844554901
+Test Accuracy: 0.861609756946564
+---
+Loss Metrics:
+Train Loss: 0.217246398329735
+Validation Loss: 0.583909094333649
+Test Loss: 0.861609756946564
+
+Model Description:
+4 relu layers: 512(0.003 l2 regularizer)/0.25/512 (0.003 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 29
+
+Accuracy Metrics:
+Train Accuracy: 0.949337661266327
+Validation Accuracy: 0.868875086307526
+Test Accuracy: 0.855395555496216
+---
+Loss Metrics:
+Train Loss: 0.230213165283203
+Validation Loss: 0.617418706417084
+Test Loss: 0.855395555496216
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.2/1024 (0.005 regularizer l2)/0.15/512/0.1/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+Data Preprocessing:
+
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED == 365243, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = as.numeric(DAYS_EMPLOYED),
+    YEARS_EMPLOYED = DAYS_EMPLOYED / 365,
+    DAYS_BIRTH = abs(DAYS_BIRTH),
+    AGE = DAYS_BIRTH / 365,
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    CNT_CHILDREN = ifelse(CNT_CHILDREN > 5, 5, CNT_CHILDREN),
+    CNT_CHILDREN = log1p(CNT_CHILDREN)
+  ) %>%
+  select(-CNT_FAM_MEMBERS, -DAYS_EMPLOYED, -DAYS_BIRTH)
+  
+  PLUS BOX-COX after train-test split
+
+------------------
+
+------------------
+Try Number: 30
+
+Accuracy Metrics:
+Train Accuracy: 0.951386988162994
+Validation Accuracy: 0.866410315036774
+Test Accuracy: 0.86614716053009
+---
+Loss Metrics:
+Train Loss: 0.227461665868759
+Validation Loss: 0.610232770442963
+Test Loss: 0.86614716053009
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.2/1024 (0.005 regularizer l2)/0.15/512/0.1/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+Data Preprocessing:
+
+# Compute the 99th percentile for DAYS_EMPLOYED
+percentile_99 <- quantile(data_final$DAYS_EMPLOYED[data_final$DAYS_EMPLOYED > 0], 0.99, na.rm = TRUE)
+
+# Update the pipeline to include the 99th percentile capping
+data_final <- data_final %>%
+  mutate(
+    # Transform DAYS_EMPLOYED to 0 if > 0
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    # Convert DAYS_EMPLOYED and DAYS_BIRTH to absolute values
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+summary(data_final$DAYS_EMPLOYED)
+percentile_99 <- quantile(data_final$DAYS_EMPLOYED[data_final$DAYS_EMPLOYED > 0], 0.99, na.rm = TRUE)
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > percentile_99, percentile_99, DAYS_EMPLOYED)
+  )
+summary(data_final$DAYS_EMPLOYED)
+
+------------------
+
+------------------
+Try Number: 31
+
+Accuracy Metrics:
+Train Accuracy: 0.970760345458984
+Validation Accuracy: 0.865424454212189
+Test Accuracy: 0.864667594432831
+---
+Loss Metrics:
+Train Loss: 0.146000936627388
+Validation Loss: 0.597220063209534
+Test Loss: 0.864667594432831
+
+Model Description:
+4 relu layers: 512(0.002 l2 regularizer)/0.15/512 (0.002 regularizer l2)/0.15/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 32
+
+Accuracy Metrics:
+Train Accuracy: 0.957196891307831
+Validation Accuracy: 0.865917384624481
+Test Accuracy: 0.864371657371521
+---
+Loss Metrics:
+Train Loss: 0.190307602286339
+Validation Loss: 0.56100869178772
+Test Loss: 0.864371657371521
+
+Model Description:
+4 relu layers: 512(0.005 l2 regularizer)/0.25/512 (0.002 regularizer l2)/0.2/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 33
+
+Accuracy Metrics:
+Train Accuracy: 0.960006773471832
+Validation Accuracy: 0.877846777439117
+Test Accuracy: 0.868514478206635
+---
+Loss Metrics:
+Train Loss: 0.169436901807785
+Validation Loss: 0.514594852924347
+Test Loss: 0.868514478206635
+
+Model Description:
+4 relu layers: 512(0.001 l2 regularizer)/0.25/512 (0.001 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!! with dataset of OCCUTPATION_TYPE  Unknown
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 34
+
+Accuracy Metrics:
+Train Accuracy: 0.948809504508972
+Validation Accuracy: 0.878931283950806
+Test Accuracy: 0.874038279056549
+---
+Loss Metrics:
+Train Loss: 0.182737052440643
+Validation Loss: 0.49951446056366
+Test Loss: 0.874038279056549
+
+Model Description:
+4 relu layers: 512(0.005 l2 regularizer)/0.3/512 (0.001 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!! with dataset of OCCUTPATION_TYPE  Unknown; learning rate 0.001
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+
+------------------
+
+------------------
+Try Number: 35
+
+Accuracy Metrics:
+Train Accuracy: 0.934464335441589
+Validation Accuracy: 0.871142685413361
+Test Accuracy: 0.872361421585083
+---
+Loss Metrics:
+Train Loss: 0.251270979642868
+Validation Loss: 0.518646657466888
+Test Loss: 0.872361421585083
+
+Model Description:
+4 relu layers: 512(0.005 l2 regularizer)/0.3/512 (0.001 regularizer l2)/0.25/512/0.15/512; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+
+learning rate 0.0001
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 36
+
+Accuracy Metrics:
+Train Accuracy: 0.917224764823914
+Validation Accuracy: 0.860889256000519
+Test Accuracy: 0.863286674022675
+---
+Loss Metrics:
+Train Loss: 0.251556217670441
+Validation Loss: 0.557126045227051
+Test Loss: 0.863286674022675
+
+Model Description:
+3 relu layers: 256(0.005 l2 regularizer)/0.2/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 
+  learning rate 0.0001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 37
+
+Accuracy Metrics:
+Train Accuracy: 0.942450284957886
+Validation Accuracy: 0.864142775535583
+Test Accuracy: 0.868415832519531
+---
+Loss Metrics:
+Train Loss: 0.190250486135483
+Validation Loss: 0.580136299133301
+Test Loss: 0.868415832519531
+
+Model Description:
+3 relu layers: 512(0.005 l2 regularizer)/0.2/512/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 38
+
+Accuracy Metrics:
+Train Accuracy: 0.953225016593933
+Validation Accuracy: 0.865621626377106
+Test Accuracy: 0.86762672662735
+---
+Loss Metrics:
+Train Loss: 0.173201814293861
+Validation Loss: 0.569599390029907
+Test Loss: 0.86762672662735
+
+Model Description:
+3 relu layers: 512(0.005 l2 regularizer)/0.2/256/0.1/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.7 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 39
+
+Accuracy Metrics:
+Train Accuracy: 0.95358419418335
+Validation Accuracy: 0.866213142871857
+Test Accuracy: 0.866837620735168
+---
+Loss Metrics:
+Train Loss: 0.167239338159561
+Validation Loss: 0.557638645172119
+Test Loss: 0.866837620735168
+
+Model Description:
+3 relu layers: 512(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.7 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 40
+
+Accuracy Metrics:
+Train Accuracy: 0.955041944980621
+Validation Accuracy: 0.868086338043213
+Test Accuracy: 0.87078320980072
+---
+Loss Metrics:
+Train Loss: 0.158006906509399
+Validation Loss: 0.536982715129852
+Test Loss: 0.87078320980072
+
+Model Description:
+3 relu layers: 512(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+
+------------------
+
+------------------
+Try Number: 41
+
+Accuracy Metrics:
+Train Accuracy: 0.958041965961456
+Validation Accuracy: 0.863058269023895
+Test Accuracy: 0.856381952762604
+---
+Loss Metrics:
+Train Loss: 0.150931373238564
+Validation Loss: 0.536507964134216
+Test Loss: 0.856381952762604
+
+Model Description:
+3 relu layers: 512(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, NA, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 42
+
+Accuracy Metrics:
+Train Accuracy: 0.955844759941101
+Validation Accuracy: 0.86276251077652
+Test Accuracy: 0.854310512542725
+---
+Loss Metrics:
+Train Loss: 0.153585568070412
+Validation Loss: 0.52367776632309
+Test Loss: 0.854310512542725
+
+Model Description:
+3 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, NA, DAYS_EMPLOYED),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 43
+
+Accuracy Metrics:
+Train Accuracy: 0.962541997432709
+Validation Accuracy: 0.873903155326843
+Test Accuracy: 0.875024676322937
+---
+Loss Metrics:
+Train Loss: 0.137040078639984
+Validation Loss: 0.522980034351349
+Test Loss: 0.875024676322937
+
+Model Description:
+3 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+data_final <- data_final %>%
+  mutate(
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 44
+
+Accuracy Metrics:
+Train Accuracy: 0.951239109039307
+Validation Accuracy: 0.871438443660736
+Test Accuracy: 0.861905694007874
+---
+Loss Metrics:
+Train Loss: 0.16818442940712
+Validation Loss: 0.509345591068268
+Test Loss: 0.861905694007874
+
+Model Description:
+3 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/256; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+early stopping! stopped after 82 epochs
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 45
+
+Accuracy Metrics:
+Train Accuracy: 0.945936262607574
+Validation Accuracy: 0.864832878112793
+Test Accuracy: 0.867133557796478
+---
+Loss Metrics:
+Train Loss: 0.173522368073463
+Validation Loss: 0.53149938583374
+Test Loss: 0.867133557796478
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/256/0.1/128; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+early stopping! stopped after 93 epochs
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 46
+
+Accuracy Metrics:
+Train Accuracy: 0.950563013553619
+Validation Accuracy: 0.871734201908112
+Test Accuracy: 0.861609756946564
+---
+Loss Metrics:
+Train Loss: 0.163894861936569
+Validation Loss: 0.521843612194061
+Test Loss: 0.861609756946564
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/256/0.1/128; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+early stopping! stopped after 93 epochs
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+plus CNT_CHILDREN binned into 3 bins! 
+data_final <- data_final %>%
+  mutate(
+    AMT_INCOME_TOTAL = log1p(AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  )
+  
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 47
+
+Accuracy Metrics:
+Train Accuracy: 0.954450368881226
+Validation Accuracy: 0.874691903591156
+Test Accuracy: 0.874432802200317
+---
+Loss Metrics:
+Train Loss: 0.157822772860527
+Validation Loss: 0.514783978462219
+Test Loss: 0.874432802200317
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/512/0.1/128; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+early stopping! stopped after 93 epochs
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+
+data_final <- data_final %>%
+  mutate(
+    #DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    AGE_YEARS = as.integer(abs(DAYS_BIRTH) / 365.25),
+ 
+  ) %>%
+  select(-DAYS_BIRTH)
+  with imputed days employed
+
+------------------
+
+------------------
+Try Number: 48
+
+Accuracy Metrics:
+Train Accuracy: 0.956922233104706
+Validation Accuracy: 0.876663684844971
+Test Accuracy: 0.87255871295929
+---
+Loss Metrics:
+Train Loss: 0.147714138031006
+Validation Loss: 0.494390696287155
+Test Loss: 0.87255871295929
+
+Model Description:
+4 relu layers: 1024(0.005 l2 regularizer)/0.25/512/0.15/512/0.1/128; softmax activation function, nadam optimizer, loss_categorigal_crossentropy; 500 epochs 256 batch size CORRECTED NORMALIZATION!!!!
+  adjusted class weights *0.5 (corrected!) 
+  learning rate 0.001
+  callback_reduce_lr <- callback_reduce_lr_on_plateau(
+  monitor = val_loss,   # Monitor validation loss
+  factor = 0.5,           # Reduce learning rate by this factor
+  patience = 10,          # Number of epochs with no improvement before reducing LR
+  min_lr = 1e-6           # Minimum learning rate to prevent it from becoming too small
+)
+early stopping! stopped after 93 epochs
+Data Preprocessing:
+
+with outliers removed prior to this!!! 
+
+data_final <- data_final %>%
+  mutate(
+    #DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    AGE_YEARS = as.integer(abs(DAYS_BIRTH) / 365.25),
+    EMPLOYED_YEARS = as.integer(DAYS_EMPLOYED / 365.25)
+  ) %>%
+  select(-DAYS_BIRTH, -DAYS_EMPLOYED)
+  
+  with imputed days employed
+
+------------------
+

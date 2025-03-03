@@ -1,0 +1,1723 @@
+Model Name:
+Linear Model Fit 1: all parameters
+
+MSE:
+10.5901235878814
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+home_ownershipRENT: NA
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+purposewedding: NA
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 2: without application_type_encoded and home_ownership_MORTGAGE
+
+MSE:
+10.5902458693873
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+home_ownershipRENT: NA
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+purposewedding: NA
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 1: all parameters
+
+MSE:
+10.5901235878814
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+home_ownershipRENT: NA
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+purposewedding: NA
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 2: without application_type_encoded and home_ownership_MORTGAGE
+
+MSE:
+10.5902458693873
+
+Parameters:
+(Intercept): 6.31344859133181
+dti: 0.0579697660301258
+revol_bal: -4.78973076211258e-05
+revol_util: 0.054330216233295
+collections_12_mths_ex_med: 0.20183606693176
+tot_cur_bal: -1.72144213724745e-06
+total_rev_hi_lim: -1.03247868097252e-05
+last_credit_pull_scaled: 0.0156728930754965
+tot_coll_amt_log_capped: 0.0824621381024154
+loan_amnt: 6.48609259051159e-05
+annual_inc: -2.68774436175206e-06
+delinq_2yrs: 0.287968127291995
+inq_last_6mths: 1.03502251506247
+open_acc: 0.0732157911190847
+pub_rec: 0.422381108533723
+total_acc: -0.0295396056096824
+acc_now_delinq: 1.55339414014189
+emp_length_encoded: -0.000900676368570201
+term_encoded: 3.8515368362461
+home_ownershipOWN: 0.434108203004448
+home_ownershipRENT: 0.34407909377325
+verification_status_encoded: 0.147179535049319
+purposecar: -1.40691131343728
+purposecredit_card: -2.46443809063285
+purposedebt_consolidation: -1.09784551935745
+purposeeducational: -1.76332527375276
+purposehome_improvement: -0.84182748352805
+purposehouse: 1.49493195558986
+purposemajor_purchase: -1.00437899009995
+purposemedical: 0.84589657634615
+purposemoving: 1.74636978779686
+purposeother: 0.997760255502939
+purposerenewable_energy: 1.57362414257542
+purposesmall_business: 1.87935767081526
+purposevacation: 0.972990275402942
+purposewedding: NA
+addr_stateAK: 0.188051874658497
+addr_stateAL: 0.236193524928326
+addr_stateAR: 0.058902490300871
+addr_stateAZ: 0.126898776965194
+addr_stateCA: 0.208452684598872
+addr_stateCO: -0.0761082984877752
+addr_stateCT: 0.069814157109632
+addr_stateDC: 0.0539080000105498
+addr_stateDE: 0.0552409020875081
+addr_stateFL: 0.242758226082933
+addr_stateGA: 0.130476714751011
+addr_stateHI: 0.292341634207519
+addr_stateIA: -1.14784196835993
+addr_stateID: -0.900498065435805
+addr_stateIL: -0.0650629486952638
+addr_stateIN: -0.0727651560487658
+addr_stateKS: -0.0722152266367649
+addr_stateKY: -0.0852681777566898
+addr_stateLA: 0.079045842158537
+addr_stateMA: -0.221741829113516
+addr_stateMD: 0.227880758067254
+addr_stateME: -0.947028844682538
+addr_stateMI: -0.0147999537286968
+addr_stateMN: 0.0652263792205104
+addr_stateMO: 0.00609646906643402
+addr_stateMS: -0.016417286989604
+addr_stateMT: -0.0205663061588316
+addr_stateNC: 0.281398525240521
+addr_stateND: -0.21935050754918
+addr_stateNE: -0.308244636540099
+addr_stateNH: -0.290617208210179
+addr_stateNJ: 0.135459480613123
+addr_stateNM: 0.194063076486654
+addr_stateNV: 0.40820099480817
+addr_stateNY: 0.28378068352285
+addr_stateOH: -0.0440482387202702
+addr_stateOK: 0.0116660398239481
+addr_stateOR: 0.158666516325955
+addr_statePA: -0.045936861171712
+addr_stateRI: 0.0840638650992188
+addr_stateSC: 0.208066809123069
+addr_stateSD: 0.0577684649701481
+addr_stateTN: 0.353901699814889
+addr_stateTX: 0.0767977464762845
+addr_stateUT: 0.10459156682524
+addr_stateVA: 0.156007205270034
+addr_stateVT: -0.252005228702938
+addr_stateWA: 0.195186254266993
+addr_stateWI: -0.217430069077752
+addr_stateWV: -0.0675548689577541
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.30588273515092
+initial_list_status_encoded: -1.12802544222415
+verification_status_joint_encoded: 0.390600628668848
+
+--------------------------
+Model Name:
+Ridge Regression: 10-fold CV
+
+MSE:
+10.6089234673229
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Linear Model Fit 3: without purposewedding & addr_stateWY
+
+MSE:
+10.5901235878814
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+home_ownershipRENT: NA
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 3: without purposewedding & addr_stateWY
+
+MSE:
+10.5901235878814
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+home_ownershipRENT: NA
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 3: without purposewedding & addr_stateWY
+
+MSE:
+10.5901235878814
+
+Parameters:
+(Intercept): 8.78397655850912
+dti: 0.0579716728410383
+revol_bal: -4.79004435156307e-05
+revol_util: 0.0543315483585732
+collections_12_mths_ex_med: 0.201720153837265
+tot_cur_bal: -1.72152531802789e-06
+total_rev_hi_lim: -1.03247924981404e-05
+last_credit_pull_scaled: 0.0156954399914369
+tot_coll_amt_log_capped: 0.0824819957827265
+loan_amnt: 6.48629520492279e-05
+annual_inc: -2.68729670801807e-06
+delinq_2yrs: 0.288014076812703
+inq_last_6mths: 1.03501674928324
+open_acc: 0.0732090653003413
+pub_rec: 0.422429188902611
+total_acc: -0.0295424695241449
+acc_now_delinq: 1.55323863819269
+emp_length_encoded: -0.000901571829225368
+term_encoded: 3.85168788618422
+home_ownershipMORTGAGE: -0.343960354831355
+home_ownershipOWN: 0.0900656845510684
+verification_status_encoded: 0.147075804929345
+purposecar: -1.40701360221484
+purposecredit_card: -2.46436809544605
+purposedebt_consolidation: -1.09780995795041
+purposeeducational: -1.76325802376475
+purposehome_improvement: -0.841857881635827
+purposehouse: 1.49487381377096
+purposemajor_purchase: -1.0044681891647
+purposemedical: 0.84605737567778
+purposemoving: 1.74631882135477
+purposeother: 0.997835536102931
+purposerenewable_energy: 1.57358365831179
+purposesmall_business: 1.8792992135129
+purposevacation: 0.97290107216974
+addr_stateAK: 0.18599318973927
+addr_stateAL: 0.234752666491974
+addr_stateAR: 0.0576568484319351
+addr_stateAZ: 0.125528756130057
+addr_stateCA: 0.207124669894531
+addr_stateCO: -0.0772737974645445
+addr_stateCT: 0.0683905154477551
+addr_stateDC: 0.0525061304533865
+addr_stateDE: 0.0537279963023542
+addr_stateFL: 0.241544731528003
+addr_stateGA: 0.129196322434599
+addr_stateHI: 0.290887427933527
+addr_stateIA: -1.14912144167382
+addr_stateID: -0.901786685002564
+addr_stateIL: -0.0663029122307198
+addr_stateIN: -0.0741326211153616
+addr_stateKS: -0.0737131711701448
+addr_stateKY: -0.0865281813052906
+addr_stateLA: 0.077589649317046
+addr_stateMA: -0.223126420402762
+addr_stateMD: 0.226440585713724
+addr_stateME: -0.950426596384151
+addr_stateMI: -0.0161569039684981
+addr_stateMN: 0.0638685543426863
+addr_stateMO: 0.00499488517070502
+addr_stateMS: -0.0173649635780328
+addr_stateMT: -0.0220113288704509
+addr_stateNC: 0.280001054954045
+addr_stateND: -0.219439879189552
+addr_stateNE: -0.30825054390299
+addr_stateNH: -0.291433728068037
+addr_stateNJ: 0.134068197019949
+addr_stateNM: 0.192825087953526
+addr_stateNV: 0.406726351205283
+addr_stateNY: 0.282449551323713
+addr_stateOH: -0.0451796953148144
+addr_stateOK: 0.0104142181899966
+addr_stateOR: 0.157449553729555
+addr_statePA: -0.0471526187650258
+addr_stateRI: 0.0826346684568334
+addr_stateSC: 0.206767410223158
+addr_stateSD: 0.0568649897858825
+addr_stateTN: 0.352805238987385
+addr_stateTX: 0.075460044662296
+addr_stateUT: 0.103111420381241
+addr_stateVA: 0.154667390357627
+addr_stateVT: -0.253446816710317
+addr_stateWA: 0.193924395259995
+addr_stateWI: -0.2185759490902
+addr_stateWV: -0.0690237955122363
+earliest_cr_line_scaled: 0.305939519299143
+initial_list_status_encoded: -1.12793529997969
+application_type_encoded: -1.38207955230407
+verification_status_joint_encoded: 1.13374150394814
+
+--------------------------
+Model Name:
+Linear Model Fit 3: without purposewedding & addr_stateWY & home_ownershipRENT & purposecredit_card
+
+MSE:
+10.6066283550388
+
+Parameters:
+(Intercept): 6.37701408859416
+dti: 0.0578836453212701
+revol_bal: -4.80545716031705e-05
+revol_util: 0.0542180366192728
+collections_12_mths_ex_med: 0.199391544553909
+tot_cur_bal: -1.72087626738799e-06
+total_rev_hi_lim: -1.03604794187572e-05
+last_credit_pull_scaled: 0.00656467209437104
+tot_coll_amt_log_capped: 0.0821319776679784
+loan_amnt: 6.4619181681428e-05
+annual_inc: -2.66666363403203e-06
+delinq_2yrs: 0.288016075452644
+inq_last_6mths: 1.03643518311263
+open_acc: 0.0732074407588745
+pub_rec: 0.420209472828734
+total_acc: -0.0296540504561886
+acc_now_delinq: 1.55137899985384
+emp_length_encoded: -0.00104899880640724
+term_encoded: 3.8543173314711
+home_ownershipMORTGAGE: -0.345889282493189
+home_ownershipOWN: 0.0867615982660138
+verification_status_encoded: 0.14688972813767
+purposecar: 1.01894679436357
+purposedebt_consolidation: 1.33840230762172
+purposeeducational: 0.620243655124846
+purposehome_improvement: 1.59170552603927
+purposehouse: 3.92067429591827
+purposemajor_purchase: 1.42351810068843
+purposemedical: 3.27731931802202
+purposemoving: 4.1741090947075
+purposeother: 3.42776849176698
+purposerenewable_energy: 3.99998966219051
+purposesmall_business: 4.30441836764742
+purposevacation: 3.40322250770517
+addr_stateAK: 0.184741727982631
+addr_stateAL: 0.23847611214366
+addr_stateAR: 0.0575919022504865
+addr_stateAZ: 0.129032309324021
+addr_stateCA: 0.211047314726522
+addr_stateCO: -0.0761772741127709
+addr_stateCT: 0.0728250239276903
+addr_stateDC: 0.0616373257670527
+addr_stateDE: 0.0593468246433524
+addr_stateFL: 0.245282708143202
+addr_stateGA: 0.132401227307473
+addr_stateHI: 0.299464123716008
+addr_stateIA: -1.21984093457076
+addr_stateID: -0.972491507451089
+addr_stateIL: -0.0611337984047811
+addr_stateIN: -0.0740371005209593
+addr_stateKS: -0.0728572707818023
+addr_stateKY: -0.0873364304322786
+addr_stateLA: 0.0836413453787556
+addr_stateMA: -0.219118528551625
+addr_stateMD: 0.233349615247189
+addr_stateME: -0.950378988533131
+addr_stateMI: -0.0138102644072891
+addr_stateMN: 0.0641194034549292
+addr_stateMO: 0.00495486883119223
+addr_stateMS: -0.0140399743721493
+addr_stateMT: -0.0251156406956196
+addr_stateNC: 0.283694274441526
+addr_stateND: -0.220039134781395
+addr_stateNE: -0.308679443422655
+addr_stateNH: -0.290624802999867
+addr_stateNJ: 0.143226151004912
+addr_stateNM: 0.195982296404595
+addr_stateNV: 0.409103127801907
+addr_stateNY: 0.287764303554951
+addr_stateOH: -0.0425797914139556
+addr_stateOK: 0.00964666579526287
+addr_stateOR: 0.156510044217622
+addr_statePA: -0.0417086128070166
+addr_stateRI: 0.0859227601730469
+addr_stateSC: 0.210523005093673
+addr_stateSD: 0.0569766900879389
+addr_stateTN: 0.353676103377637
+addr_stateTX: 0.079666128685619
+addr_stateUT: 0.101773008543654
+addr_stateVA: 0.159774285675952
+addr_stateVT: -0.256304761275657
+addr_stateWA: 0.196572298133197
+addr_stateWI: -0.220469072158004
+addr_stateWV: -0.0684300742366552
+earliest_cr_line_scaled: 0.305942411493829
+initial_list_status_encoded: -1.13495179703433
+application_type_encoded: -1.3854312655301
+verification_status_joint_encoded: 1.13687671279452
+
+--------------------------
+Model Name:
+Linear Model Fit 3: without purposewedding & addr_stateWY & home_ownershipRENT & purposecredit_card
+
+MSE:
+10.6066283550388
+
+Parameters:
+(Intercept): 6.37701408859416
+dti: 0.0578836453212701
+revol_bal: -4.80545716031705e-05
+revol_util: 0.0542180366192728
+collections_12_mths_ex_med: 0.199391544553909
+tot_cur_bal: -1.72087626738799e-06
+total_rev_hi_lim: -1.03604794187572e-05
+last_credit_pull_scaled: 0.00656467209437104
+tot_coll_amt_log_capped: 0.0821319776679784
+loan_amnt: 6.4619181681428e-05
+annual_inc: -2.66666363403203e-06
+delinq_2yrs: 0.288016075452644
+inq_last_6mths: 1.03643518311263
+open_acc: 0.0732074407588745
+pub_rec: 0.420209472828734
+total_acc: -0.0296540504561886
+acc_now_delinq: 1.55137899985384
+emp_length_encoded: -0.00104899880640724
+term_encoded: 3.8543173314711
+home_ownershipMORTGAGE: -0.345889282493189
+home_ownershipOWN: 0.0867615982660138
+verification_status_encoded: 0.14688972813767
+purposecar: 1.01894679436357
+purposedebt_consolidation: 1.33840230762172
+purposeeducational: 0.620243655124846
+purposehome_improvement: 1.59170552603927
+purposehouse: 3.92067429591827
+purposemajor_purchase: 1.42351810068843
+purposemedical: 3.27731931802202
+purposemoving: 4.1741090947075
+purposeother: 3.42776849176698
+purposerenewable_energy: 3.99998966219051
+purposesmall_business: 4.30441836764742
+purposevacation: 3.40322250770517
+addr_stateAK: 0.184741727982631
+addr_stateAL: 0.23847611214366
+addr_stateAR: 0.0575919022504865
+addr_stateAZ: 0.129032309324021
+addr_stateCA: 0.211047314726522
+addr_stateCO: -0.0761772741127709
+addr_stateCT: 0.0728250239276903
+addr_stateDC: 0.0616373257670527
+addr_stateDE: 0.0593468246433524
+addr_stateFL: 0.245282708143202
+addr_stateGA: 0.132401227307473
+addr_stateHI: 0.299464123716008
+addr_stateIA: -1.21984093457076
+addr_stateID: -0.972491507451089
+addr_stateIL: -0.0611337984047811
+addr_stateIN: -0.0740371005209593
+addr_stateKS: -0.0728572707818023
+addr_stateKY: -0.0873364304322786
+addr_stateLA: 0.0836413453787556
+addr_stateMA: -0.219118528551625
+addr_stateMD: 0.233349615247189
+addr_stateME: -0.950378988533131
+addr_stateMI: -0.0138102644072891
+addr_stateMN: 0.0641194034549292
+addr_stateMO: 0.00495486883119223
+addr_stateMS: -0.0140399743721493
+addr_stateMT: -0.0251156406956196
+addr_stateNC: 0.283694274441526
+addr_stateND: -0.220039134781395
+addr_stateNE: -0.308679443422655
+addr_stateNH: -0.290624802999867
+addr_stateNJ: 0.143226151004912
+addr_stateNM: 0.195982296404595
+addr_stateNV: 0.409103127801907
+addr_stateNY: 0.287764303554951
+addr_stateOH: -0.0425797914139556
+addr_stateOK: 0.00964666579526287
+addr_stateOR: 0.156510044217622
+addr_statePA: -0.0417086128070166
+addr_stateRI: 0.0859227601730469
+addr_stateSC: 0.210523005093673
+addr_stateSD: 0.0569766900879389
+addr_stateTN: 0.353676103377637
+addr_stateTX: 0.079666128685619
+addr_stateUT: 0.101773008543654
+addr_stateVA: 0.159774285675952
+addr_stateVT: -0.256304761275657
+addr_stateWA: 0.196572298133197
+addr_stateWI: -0.220469072158004
+addr_stateWV: -0.0684300742366552
+earliest_cr_line_scaled: 0.305942411493829
+initial_list_status_encoded: -1.13495179703433
+application_type_encoded: -1.3854312655301
+verification_status_joint_encoded: 1.13687671279452
+
+--------------------------
+Model Name:
+Linear Model Fit 4: without all addr_state columns & purposewedding & addr_state* & home_ownershipRENT & purposecredit_card
+
+MSE:
+10.6232371900545
+
+Parameters:
+(Intercept): 6.56586189786589
+dti: 0.0572196486058711
+revol_bal: -4.80911840576008e-05
+revol_util: 0.054156295771417
+collections_12_mths_ex_med: 0.204676264506227
+tot_cur_bal: -1.65470098661219e-06
+total_rev_hi_lim: -1.03867144087535e-05
+last_credit_pull_scaled: 0.00595174606880083
+tot_coll_amt_log_capped: 0.0812039985872402
+loan_amnt: 6.46635940958841e-05
+annual_inc: -2.64134202062751e-06
+delinq_2yrs: 0.288285900045452
+inq_last_6mths: 1.02916766669639
+open_acc: 0.0739453006582901
+pub_rec: 0.416874010583102
+total_acc: -0.0302039744952095
+acc_now_delinq: 1.55287402876094
+emp_length_encoded: -0.000745308625096184
+term_encoded: 3.85060229198834
+home_ownershipMORTGAGE: -0.389964493525979
+home_ownershipOWN: 0.0610815694706531
+verification_status_encoded: 0.14859404163342
+purposecar: 1.02674536265928
+purposedebt_consolidation: 1.34715358520333
+purposeeducational: 0.621328111877982
+purposehome_improvement: 1.60622560270469
+purposehouse: 3.93463423628889
+purposemajor_purchase: 1.43055351445033
+purposemedical: 3.28890737624727
+purposemoving: 4.19390804197467
+purposeother: 3.44319091947617
+purposerenewable_energy: 4.02971218308197
+purposesmall_business: 4.32181714093653
+purposevacation: 3.42553791745955
+earliest_cr_line_scaled: 0.305290196122475
+initial_list_status_encoded: -1.13895144657434
+application_type_encoded: -1.41503548704566
+verification_status_joint_encoded: 1.13878128243592
+
+--------------------------
+
+Model Name:
+Polynomial Regression 1
+
+MSE:
+18.7971053471649
+
+Parameters:
+(Intercept): 13.2425916537933
+poly(loan_amnt, 2)1: 470.192490443025
+poly(loan_amnt, 2)2: 216.137704458408
+
+--------------------------
+Model Name:
+Polynomial Regression 1
+
+MSE:
+19.279902252656
+
+Parameters:
+(Intercept): 13.2425916537932
+poly(acc_now_delinq, 2)1: 84.9956498871038
+poly(acc_now_delinq, 2)2: -19.4891925071218
+
+--------------------------
+Model Name:
+Polynomial Regression 1
+
+MSE:
+19.2343602967022
+
+Parameters:
+(Intercept): 13.2425916537932
+poly(total_acc, 2)1: -131.636486783095
+poly(total_acc, 2)2: 140.382285231665
+
+--------------------------
+Model Name:
+Polynomial Regression 1
+
+MSE:
+19.2901321937618
+
+Parameters:
+(Intercept): 13.2425916537932
+poly(open_acc, 2)1: -36.7969950138022
+poly(open_acc, 2)2: 30.8709628227467
+
+--------------------------
+Model Name:
+Polynomial Regression 2: multiple predictor variables
+
+MSE:
+18.2105383684144
+
+Parameters:
+(Intercept): 13.2425916537933
+poly(loan_amnt, 2)1: 747.212930592777
+poly(loan_amnt, 2)2: 269.989278453112
+poly(annual_inc, 2)1: -498.578797464773
+poly(annual_inc, 2)2: 411.528396951855
+
+--------------------------
+
+Model Name:
+Polynomial Regression 2: multiple predictor variables (open_acc, loan_amnt)
+
+MSE:
+18.7649680263493
+
+Parameters:
+(Intercept): 13.2425916537933
+poly(open_acc, 2)1: -128.594441913762
+poly(open_acc, 2)2: 57.3996135997162
+poly(loan_amnt, 2)1: 499.966688392195
+poly(loan_amnt, 2)2: 208.667785776894
+
+--------------------------
+Model Name:
+XGBoost 1
+
+MSE:
+8.66447131311567
+
+Parameters:
+
+
+--------------------------
+Model Name:
+XGBoost 1
+
+Test MSE:
+8.6467466212395
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Ridge Regression: 10-fold CV
+
+Test MSE:
+10.6089234673229
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Random Forest with 20 trees:
+
+MSE:
+9.59921273642647
+
+Parameters:
+: 559033
+:      1
+:      1
+:      1
+:      1
+:      1
+:      7
+:      1
+:      1
+:      1
+:      4
+:      1
+:      1
+:      1
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: ranger.forest
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: list
+: character
+: character
+: numeric
+: call
+: character
+: numeric
+: logical
+
+--------------------------
+Model Name:
+Random Forest with 100 trees:
+
+MSE:
+9.21063102886564
+
+Parameters:
+: 559033
+:      1
+:      1
+:      1
+:      1
+:      1
+:      7
+:      1
+:      1
+:      1
+:      4
+:      1
+:      1
+:      1
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: ranger.forest
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: list
+: character
+: character
+: numeric
+: call
+: character
+: numeric
+: logical
+
+--------------------------
+Model Name:
+Random Forest with 100 trees and mtry 5:
+
+MSE:
+9.71010009195887
+
+Parameters:
+: 559033
+:      1
+:      1
+:      1
+:      1
+:      1
+:      7
+:      1
+:      1
+:      1
+:      5
+:      1
+:      1
+:      1
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: ranger.forest
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: numeric
+: list
+: character
+: character
+: numeric
+: call
+: character
+: numeric
+: logical
+
+--------------------------
+Model Name:
+Random Forest with 100 trees & Grid Search:
+
+MSE:
+9.48037629895626
+
+Parameters:
+: mtry 6,	splitrule variance,	min.node.size 5
+
+--------------------------
+Model Name:
+XGBoost 2
+
+Test MSE:
+9.18549337111458
+
+Parameters:
+:     1
+: 93679
+:     1
+:     1
+:     1
+:     1
+:     1
+:     3
+:     7
+:     5
+:     3
+:    91
+:     1
+: xgb.Booster.handle
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: data.table
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: externalptr
+: raw
+: numeric
+: numeric
+: numeric
+: character
+: numeric
+: list
+: call
+: list
+: list
+: character
+: numeric
+
+--------------------------
+Model Name:
+XGBoost 2
+
+Test MSE:
+9.98514724062039
+
+Parameters:
+:     1
+: 80081
+:     1
+:     1
+:     1
+:     1
+:     1
+:     3
+:     7
+:     5
+:     3
+:    91
+:     1
+: xgb.Booster.handle
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: data.table
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: externalptr
+: raw
+: numeric
+: numeric
+: numeric
+: character
+: numeric
+: list
+: call
+: list
+: list
+: character
+: numeric
+
+--------------------------
+Model Name:
+XGBoost 1
+
+Test MSE:
+8.65765767200229
+
+Parameters:
+
+
+--------------------------
+Model Name:
+XGBoost 2
+
+Test MSE:
+8.01249990973902
+
+Parameters:
+:        1
+: 11179710
+:        1
+:        1
+:        1
+:        1
+:        1
+:        3
+:        7
+:        7
+:        3
+:       91
+:        1
+: xgb.Booster.handle
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: data.table
+: -none-
+: -none-
+: -none-
+: -none-
+: -none-
+: externalptr
+: raw
+: numeric
+: numeric
+: numeric
+: character
+: numeric
+: list
+: call
+: list
+: list
+: character
+: numeric
+
+--------------------------
+Model Name:
+XGBoost after 10-fold CV
+
+Test MSE:
+7.99216739853799
+
+Parameters:
+objective: reg:squarederror
+eta: 0.1
+colsample_bytree: 0.5
+max_depth: 10
+min_child_weight: 2.586204
+subsample: 1
+
+--------------------------
+
+Model Name:
+Polynomial Regression 1
+
+Test MSE:
+18.797105347165
+
+Parameters:
+(Intercept): 12.9741381177581
+loan_amnt: -5.21600440668266e-05
+I(loan_amnt^2): 3.59420705247896e-09
+
+--------------------------
+Model Name:
+Polynomial Regression with three predictors
+
+Test MSE:
+18.2008938860579
+
+Parameters:
+(Intercept): 14.1717871351972
+loan_amnt: -3.47705134505231e-05
+I(loan_amnt^2): 4.40278769208112e-09
+annual_inc: -1.75857025209946e-05
+I(annual_inc^2): 2.24005238723527e-12
+open_acc: -0.0494142069981371
+I(open_acc^2): 0.00111195799481437
+
+--------------------------
+Model Name:
+Polynomial Regression with some more predictors
+
+Test MSE:
+11.3063048622326
+
+Parameters:
+(Intercept): 1.47560317927131
+term_encoded: 3.94711309095542
+I(term_encoded^2): NA
+total_rev_hi_lim: -1.90040899844935e-05
+I(total_rev_hi_lim^2): 2.38343888732744e-11
+inq_last_6mths: 1.30667349998552
+I(inq_last_6mths^2): -0.087355585378828
+revol_bal: -0.000164313056665753
+I(revol_bal^2): 2.19366547595401e-09
+loan_amnt: -0.000190012507454338
+I(loan_amnt^2): 6.64245623369187e-09
+verification_status_encoded: 5.51169384013431
+I(verification_status_encoded^2): -1.3026570064737
+revol_util: 0.07802789023438
+I(revol_util^2): -0.000167202191753468
+open_acc: 0.129317900429255
+I(open_acc^2): -0.00162523813551004
+annual_inc: -7.78092220676181e-06
+I(annual_inc^2): 1.00010749606725e-12
+tot_cur_bal: -2.53837183102779e-06
+
+--------------------------
+Model Name:
+Polynomial Regression with all predictors
+
+Test MSE:
+9.7871740275904
+
+Parameters:
+(Intercept): 5.72307418001154
+dti: -0.0473608972672615
+revol_bal: -0.000114414380617198
+revol_util: 0.0734059995398421
+collections_12_mths_ex_med: 0.201848602825156
+tot_cur_bal: -2.92788804118133e-06
+total_rev_hi_lim: -1.45762260307404e-05
+last_credit_pull_scaled: -0.239740182062489
+tot_coll_amt_log_capped: 0.097862254714329
+loan_amnt: -0.000125924467956959
+annual_inc: -7.34688252069808e-06
+delinq_2yrs: 0.464964061049883
+inq_last_6mths: 1.27270994043644
+open_acc: 0.182985936889034
+pub_rec: 0.426295389226454
+total_acc: -0.0778806549442155
+acc_now_delinq: 1.79013375188895
+emp_length_encoded: -0.0218106288239301
+term_encoded: 3.95225545174735
+home_ownershipMORTGAGE: -0.171863732766539
+home_ownershipOWN: 0.126815885629668
+home_ownershipRENT: NA
+verification_status_encoded: 4.36742854911889
+purposecar: -1.49007630299972
+purposecredit_card: -2.22337003067157
+purposedebt_consolidation: -0.931876853546371
+purposeeducational: -1.25891907702663
+purposehome_improvement: -0.779601627123307
+purposehouse: 1.48442218996176
+purposemajor_purchase: -1.05368311357943
+purposemedical: 0.726887509669296
+purposemoving: 1.45301718115163
+purposeother: 0.849566681212805
+purposerenewable_energy: 1.42962113371772
+purposesmall_business: 1.79403973451425
+purposevacation: 0.637588731184733
+purposewedding: NA
+addr_stateAK: 0.238909617407971
+addr_stateAL: 0.167716935034417
+addr_stateAR: -0.0325085959755804
+addr_stateAZ: 0.110539693088707
+addr_stateCA: 0.171355959886557
+addr_stateCO: -0.0560677090909097
+addr_stateCT: 0.0310868711027604
+addr_stateDC: 0.106392900191754
+addr_stateDE: 0.0179236627353565
+addr_stateFL: 0.183273395387689
+addr_stateGA: 0.0900304540240669
+addr_stateHI: 0.236898089159248
+addr_stateIA: 0.65300348696368
+addr_stateID: 0.633200948364938
+addr_stateIL: -0.106524661972489
+addr_stateIN: -0.114325453351142
+addr_stateKS: -0.082793914291585
+addr_stateKY: -0.159242442177126
+addr_stateLA: 0.0753001377171163
+addr_stateMA: -0.125424580634666
+addr_stateMD: 0.17997038972633
+addr_stateME: -0.987690781563201
+addr_stateMI: -0.11088120587061
+addr_stateMN: 0.0282908161046053
+addr_stateMO: -0.0389387110464648
+addr_stateMS: -0.0584851334252065
+addr_stateMT: -0.045161609778476
+addr_stateNC: 0.218299468444756
+addr_stateND: -0.268920173452328
+addr_stateNE: -0.416080819908316
+addr_stateNH: -0.238855977257978
+addr_stateNJ: 0.119230455120981
+addr_stateNM: 0.138059478601024
+addr_stateNV: 0.329249852696267
+addr_stateNY: 0.214507869640384
+addr_stateOH: -0.0957555296844161
+addr_stateOK: -0.0444715755690234
+addr_stateOR: 0.115075567341371
+addr_statePA: -0.0838762537751484
+addr_stateRI: 0.0649022564801995
+addr_stateSC: 0.155786759247975
+addr_stateSD: -0.00420528231167924
+addr_stateTN: 0.302402191633463
+addr_stateTX: 0.0656199969241073
+addr_stateUT: 0.101508727561491
+addr_stateVA: 0.135231656686281
+addr_stateVT: -0.16803234553712
+addr_stateWA: 0.170648864191886
+addr_stateWI: -0.224871936291457
+addr_stateWV: -0.133617580433591
+addr_stateWY: NA
+earliest_cr_line_scaled: 0.414006989882912
+initial_list_status_encoded: -1.00234476640449
+application_type_encoded: -0.820057117659527
+verification_status_joint_encoded: 0.431199377759064
+I(dti^2): 0.00238307859970141
+I(revol_bal^2): 1.52030635016429e-09
+I(revol_util^2): -0.000147210479642132
+I(collections_12_mths_ex_med^2): -0.00720054237629256
+I(tot_cur_bal^2): 1.52490758827874e-12
+I(total_rev_hi_lim^2): 1.38009432169158e-11
+I(last_credit_pull_scaled^2): -0.0494954781316732
+I(tot_coll_amt_log_capped^2): -0.0032624644914059
+I(loan_amnt^2): 5.36792361286404e-09
+I(annual_inc^2): 9.04336028188412e-13
+I(delinq_2yrs^2): -0.0317048248415628
+I(inq_last_6mths^2): -0.0839176906547968
+I(open_acc^2): -0.00290388894251162
+I(pub_rec^2): -0.0105920336100646
+I(total_acc^2): 0.0008418271518951
+I(acc_now_delinq^2): -0.140815965233672
+I(emp_length_encoded^2): 0.00278895854304192
+I(term_encoded^2): NA
+I(home_ownershipMORTGAGE^2): NA
+I(home_ownershipOWN^2): NA
+I(home_ownershipRENT^2): NA
+I(verification_status_encoded^2): -1.03961707927625
+I(purposecar^2): NA
+I(purposecredit_card^2): NA
+I(purposedebt_consolidation^2): NA
+I(purposeeducational^2): NA
+I(purposehome_improvement^2): NA
+I(purposehouse^2): NA
+I(purposemajor_purchase^2): NA
+I(purposemedical^2): NA
+I(purposemoving^2): NA
+I(purposeother^2): NA
+I(purposerenewable_energy^2): NA
+I(purposesmall_business^2): NA
+I(purposevacation^2): NA
+I(purposewedding^2): NA
+I(addr_stateAK^2): NA
+I(addr_stateAL^2): NA
+I(addr_stateAR^2): NA
+I(addr_stateAZ^2): NA
+I(addr_stateCA^2): NA
+I(addr_stateCO^2): NA
+I(addr_stateCT^2): NA
+I(addr_stateDC^2): NA
+I(addr_stateDE^2): NA
+I(addr_stateFL^2): NA
+I(addr_stateGA^2): NA
+I(addr_stateHI^2): NA
+I(addr_stateIA^2): NA
+I(addr_stateID^2): NA
+I(addr_stateIL^2): NA
+I(addr_stateIN^2): NA
+I(addr_stateKS^2): NA
+I(addr_stateKY^2): NA
+I(addr_stateLA^2): NA
+I(addr_stateMA^2): NA
+I(addr_stateMD^2): NA
+I(addr_stateME^2): NA
+I(addr_stateMI^2): NA
+I(addr_stateMN^2): NA
+I(addr_stateMO^2): NA
+I(addr_stateMS^2): NA
+I(addr_stateMT^2): NA
+I(addr_stateNC^2): NA
+I(addr_stateND^2): NA
+I(addr_stateNE^2): NA
+I(addr_stateNH^2): NA
+I(addr_stateNJ^2): NA
+I(addr_stateNM^2): NA
+I(addr_stateNV^2): NA
+I(addr_stateNY^2): NA
+I(addr_stateOH^2): NA
+I(addr_stateOK^2): NA
+I(addr_stateOR^2): NA
+I(addr_statePA^2): NA
+I(addr_stateRI^2): NA
+I(addr_stateSC^2): NA
+I(addr_stateSD^2): NA
+I(addr_stateTN^2): NA
+I(addr_stateTX^2): NA
+I(addr_stateUT^2): NA
+I(addr_stateVA^2): NA
+I(addr_stateVT^2): NA
+I(addr_stateWA^2): NA
+I(addr_stateWI^2): NA
+I(addr_stateWV^2): NA
+I(addr_stateWY^2): NA
+I(earliest_cr_line_scaled^2): 0.0903640518928184
+I(initial_list_status_encoded^2): NA
+I(application_type_encoded^2): NA
+I(verification_status_joint_encoded^2): 0.0232531465849884
+
+--------------------------
+
+
+Model Name:
+Ridge Regression: 10-fold CV
+
+Test MSE:
+10.6089234673234
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Ridge Regression with Standardization: 10-fold CV
+
+Test MSE:
+10.6089234673234
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Ridge Regression: CV
+
+Test MSE:
+10.5884624437099
+
+Parameters:
+
+
+--------------------------
+Model Name:
+Ridge Regression Test set: CV
+
+Test MSE:
+10.5493570091976
+
+Parameters:
+: 0.187134765705501
+
+--------------------------
+Model Name:
+Ridge Regression Test set: CV
+
+Test MSE:
+0.0434907751860554
+
+Parameters:
+: 0.00122292948252748
+
+--------------------------
+Model Name:
+LASSO Regression Test set: CV
+
+Test MSE:
+0.0434907751860554
+
+Parameters:
+: 0.00122292948252748
+
+--------------------------
+Model Name:
+Ridge Regression Test set: CV
+
+Test MSE:
+185.650977747893
+
+Parameters:
+: 0.187134765705501
+
+--------------------------
+Model Name:
+Ridge Regression Test set: CV
+
+Test MSE:
+10.5494382816301
+
+Parameters:
+: 3.2479898832401
+
+--------------------------
+

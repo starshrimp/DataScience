@@ -1,0 +1,8 @@
+Model: 4 dense layers with 256 units each (ReLU activation), Dropout (rates: 0.25, 0.15, 0.10), Batch Normalization after first two layers, final dense layer with 8 units (Softmax activation), Optimizer: Nadam, Loss: Categorical Crossentropy
+Train Accuracy: 0.870830059051514
+Train Loss: 0.392957508563995
+Test Accuracy: 0.826875686645508
+Test Loss: 0.562378704547882
+
+Code Used to Create the Model:
+keras_model_sequential() %>% ...

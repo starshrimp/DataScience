@@ -1,0 +1,209 @@
+if (!require(dplyr)) {
+  install.packages("dplyr")
+  library(dplyr)
+}
+if (!require(fastDummies)) {
+  install.packages("fastDummies")
+  library(fastDummies)
+}
+if (!require(keras3)) {
+  install.packages("keras3")
+  library(keras3)
+}
+
+if (!require(ggplot2)) {
+  install.packages("ggplot2")
+  library(ggplot2)
+}
+
+if (!require(VIM)) {
+  install.packages("VIM")
+  library(VIM)
+}
+
+if (!require(caret)) {
+  install.packages("caret")
+  library(caret)
+}
+
+if (!require(tensorflow)) {
+  install.packages("tensorflow")
+  library(tensorflow)
+}
+
+if (!require(reticulate)) {
+  install.packages("reticulate")
+  library(reticulate)
+  install_miniconda()
+}
+
+if (!require(e1071)) {
+  install.packages("e1071")
+  library(e1071)
+}
+
+if (!require(statmod)) {
+  install.packages("statmod")
+  library(statmod)
+}
+
+if (!require(rstudioapi)) {
+  install.packages("rstudioapi")
+  library(rstudioapi)
+}
+
+if ("keras" %in% rownames(installed.packages())) {
+  remove.packages("keras")
+}
+
+if (!requireNamespace("tensorflow", quietly = TRUE)) {
+  install.packages("tensorflow")
+  library(tensorflow)
+  install_tensorflow()
+}
+
+
+set.seed(42)
+
+setwd(dirname(getActiveDocumentContext()$path)) #setting the working directory to where our document is located
+
+file_path <- file.choose()
+secret_data <- read.csv(file_path, header = TRUE, sep=',')
+
+secret_data <- secret_data %>%
+  select(-c(ID, FLAG_MOBIL)) %>%
+  
+  # Mutate OCCUPATION_TYPE to "unemployed" for positive DAYS_EMPLOYED
+  mutate(OCCUPATION_TYPE = ifelse(DAYS_EMPLOYED > 0, "Unemployed", OCCUPATION_TYPE)) %>%
+  
+  # changing NAs in the OCCUPATION_TYPE column to "NA"
+  mutate(OCCUPATION_TYPE = ifelse(is.na(OCCUPATION_TYPE), "NA", OCCUPATION_TYPE)) %>%
+  
+  mutate(
+    CODE_GENDER = case_when(
+      CODE_GENDER == 'M' ~ 0,
+      CODE_GENDER == 'F' ~ 1,
+      TRUE ~ NA_real_
+    ),
+    FLAG_OWN_CAR = case_when(
+      FLAG_OWN_CAR == 'N' ~ 0,
+      FLAG_OWN_CAR == 'Y' ~ 1,
+      TRUE ~ NA_real_
+    ),
+    FLAG_OWN_REALTY = case_when(
+      FLAG_OWN_REALTY == 'N' ~ 0,
+      FLAG_OWN_REALTY == 'Y' ~ 1,
+      TRUE ~ NA_real_
+    )
+  )
+
+
+columns_to_encode <- c("NAME_INCOME_TYPE", "NAME_EDUCATION_TYPE", "NAME_FAMILY_STATUS", "NAME_HOUSING_TYPE", "OCCUPATION_TYPE")
+
+# Create one-hot encoded columns using dummyVars from Caret
+dummy_model <- dummyVars(~ ., data = secret_data[, columns_to_encode])
+encoded_data <- predict(dummy_model, newdata = secret_data[, columns_to_encode])  # Apply model
+
+secret_data <- secret_data %>%
+  select(-all_of(columns_to_encode)) %>%  # Remove original columns
+  bind_cols(as.data.frame(encoded_data))  # Add one-hot encoded columns
+
+
+secret_data <- secret_data %>%
+  mutate(DAYS_EMPLOYED = ifelse(DAYS_EMPLOYED > 0, 0, DAYS_EMPLOYED))
+
+# Function to calculate Modified Z-Score
+calc_mod_z <- function(column) {
+  median_val <- median(column, na.rm = TRUE)
+  mad_val <- mad(column, na.rm = TRUE)
+  abs(0.6745 * (column - median_val) / mad_val)
+}
+
+# Replace outliers (> 3.5 Modified Z-Score) with NA in AMT_INCOME_TOTAL and DAYS_EMPLOYED
+secret_data <- secret_data %>%
+  mutate(
+    AMT_INCOME_TOTAL = ifelse(calc_mod_z(AMT_INCOME_TOTAL) > 3.5, NA, AMT_INCOME_TOTAL),
+    DAYS_EMPLOYED = ifelse(calc_mod_z(DAYS_EMPLOYED) > 3.5, NA, DAYS_EMPLOYED)
+  )
+
+# Function to replace extreme outliers based on 3*IQR
+remove_outliers_iqr <- function(column) {
+  q1 <- quantile(column, 0.25, na.rm = TRUE)
+  q3 <- quantile(column, 0.75, na.rm = TRUE)
+  iqr <- q3 - q1
+  lower_bound <- q1 - 3 * iqr
+  upper_bound <- q3 + 3 * iqr
+  ifelse(column < lower_bound | column > upper_bound, NA, column)
+}
+
+# Replace extreme outliers (3*IQR) in CNT_CHILDREN and CNT_FAM_MEMBERS with NA
+secret_data <- secret_data %>%
+  mutate(
+    CNT_CHILDREN = remove_outliers_iqr(CNT_CHILDREN),
+    CNT_FAM_MEMBERS = remove_outliers_iqr(CNT_FAM_MEMBERS)
+  )
+
+secret_data <- kNN(secret_data, k = 5)
+secret_data <- secret_data %>% select(-ends_with("_imp"))
+ 
+
+secret_data <- secret_data %>%
+  mutate(
+    DAYS_EMPLOYED = abs(DAYS_EMPLOYED),
+    DAYS_BIRTH = abs(DAYS_BIRTH)
+  ) 
+
+# Normalization
+columns_to_normalize <- c("AMT_INCOME_TOTAL", "CNT_FAM_MEMBERS", "DAYS_EMPLOYED", "CNT_CHILDREN", "DAYS_BIRTH") 
+normalize_columns_with_train_params <- function(dataset, columns_to_normalize, train_min, train_max) {
+  # Iterate through each column to normalize
+  for (col in columns_to_normalize) {
+    # Apply normalization using train_min and train_max
+    dataset[[col]] <- (dataset[[col]] - train_min[col]) / (train_max[col] - train_min[col])
+  }
+  return(dataset)
+}
+
+#importing the normalization parameters we got from the training data
+normalization_params <- read.csv("normalization_params.csv")
+
+# Ensure columns_to_normalize is set as a character vector
+columns_to_normalize <- normalization_params$column
+
+# Extract min and max values as named vectors for easy use
+train_min <- setNames(normalization_params$min_val, normalization_params$column)
+train_max <- setNames(normalization_params$max_val, normalization_params$column)
+
+# Apply normalization to the secret data
+secret_data <- normalize_columns_with_train_params(secret_data, columns_to_normalize, train_min, train_max)
+
+# clipping the values after normalization to ensure values between 0 snd 1
+secret_data[columns_to_normalize] <- lapply(
+  secret_data[columns_to_normalize],
+  function(col) pmin(pmax(col, 0), 1)
+)
+
+
+X <- as.matrix(secret_data %>% select(-status)) # Replace 'target_column' with your target column name
+y <- as.matrix(secret_data$status)
+
+
+colnames(y) <- "status" 
+create_one_hot_matrix_fastDummies <- function(data, column_name) {
+  one_hot_encoded <- dummy_cols(data, select_columns = column_name, remove_first_dummy = FALSE, remove_selected_columns = TRUE)
+  
+  dummy_columns <- grep(paste0(column_name, "_"), colnames(one_hot_encoded), value = TRUE)
+  one_hot_matrix <- as.matrix(one_hot_encoded[, dummy_columns])
+  
+  return(one_hot_matrix)
+}
+
+# Apply the function to the datasets
+y <- create_one_hot_matrix_fastDummies(y, "status")
+
+model <- load_model('model.keras')
+results <- model %>% evaluate(data.matrix(X), data.matrix(y))
+
+
+
+
