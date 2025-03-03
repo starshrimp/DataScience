@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1"
-author: "Jana Brzak, Bojana Chen, Aleksandra Iskrzynska, Sarah Rebecca Meyer"
+author: "Sarah Rebecca Meyer"
 date: "2024-2025"
 output: 
   pdf_document:
@@ -131,6 +131,11 @@ if (!require(glmnet)){
   install.packages("glmnet")
   library(glmnet)
 }
+
+if (!require(rstudioapi)) {
+  install.packages("rstudioapi")
+  library(rstudioapi)
+}
 ```
 
 # Abstract
@@ -175,8 +180,8 @@ This is a short list of all the lessons we learned during this project:
 In the first step, we import the data from the CSV file:
 ```{r data, results = "hide"}
 # Importing CSV file into R
-getwd()
-data <- read.csv("..//data/LCdata.csv", header = TRUE, sep = ";")
+setwd(dirname(getActiveDocumentContext()$path))
+data <- read.csv("LCdata.csv", header = TRUE, sep = ";")
 ```
 
 
@@ -1448,7 +1453,7 @@ write.csv(imputed_data, file = "imputed_data.csv", row.names = FALSE)
 
 We reimport the dataset here.
 ```{r}
-imputed_data <- read.csv("../experiments/Assignment1/imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
+imputed_data <- read.csv("imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
 ```
 
 ## Correlation Matrix
@@ -1530,7 +1535,7 @@ The logs from all our models can be found in the model_log.txt file.
 First, we load the imputed data from the csv, define our target variable which is int_rate, then set a seed for reproducibility and perform a 70/30 train/test split. 
 
 ```{r}
-imputed_data <- read.csv("../experiments/Assignment1/imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
+imputed_data <- read.csv("imputed_data.csv", header = TRUE, stringsAsFactors = FALSE)
 ```
 
 ```{r}
@@ -2349,7 +2354,7 @@ log_model_details("Random Forest with 500 trees:", mse_rf_model, summary(rf_mode
 
 ## XGBoost
 
-```{r xgboost}
+```{r xgboost, eval = FALSE}
 cat("Starting xgboost chunk\n")
 # Prepare the data for XGBoost (XGBoost requires matrix format for predictors)
 train_matrix <- as.matrix(train_data[, -which(names(train_data) == target_variable)])
@@ -2406,7 +2411,7 @@ log_model_details("XGBoost 1", test_mse, xgb_model.fit1$coefficients)
 We want to have a closer look at the feature importance. Because our initial plot was not very well readable, so we display only the top 20 features.
 
 ### Feature Importance
-```{r feature importance}
+```{r feature importance, eval = FALSE}
 # Increase plot size and improve visibility of labels
 importance <- xgb.importance(model = xgb_model.fit1)
 
@@ -2425,7 +2430,7 @@ xgb.plot.importance(
 
 ### Plot the Model Fit
 In the next step, we would like to look at the diagnostic plot of the XGBoost model.
-```{r modelfit}
+```{r modelfit, eval = FALSE}
 # Plot Actual vs Predicted
 plot(test_data$int_rate, test_predictions, xlab = "Actual Interest Rate", ylab = "Predicted Interest Rate", main = "XGBoost: Actual vs Predicted")
 abline(0, 1, col = "red")  # Line for perfect fit
@@ -2596,7 +2601,7 @@ print(xgb_cv)
 We see that the best iteration of the 10-fold cross-validation was the 502 iteration, achieving a train-rmse of 2.29 and a test-rmse of 2.82.
 So we train our model with 502 iterations:
 
-```{r}
+```{r, eval=FALSE}
 # Get the best number of rounds from cross-validation
 #best_nrounds <- xgb_cv$best_iteration
 best_nrounds <- 502
@@ -2613,7 +2618,7 @@ xgb_model_cv.fit1 <- xgb.train(
 # Predict on the test data
 test_pred <- predict(xgb_model_cv.fit1, newdata = test_matrix)
 ```
-```{r}
+```{r, eval = FALSE}
 
 # Correcting the code with appropriate column referencing
 rmse <- sqrt(mean((test_pred - test_data[["int_rate"]])^2)) # Use [[ to access a column by name

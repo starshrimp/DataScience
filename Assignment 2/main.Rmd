@@ -1,6 +1,6 @@
 ---
 title: "Assignment 2"
-author: "Jana Brzak, Bojana Chen, Aleksandra Iskrzynska, Sarah Rebecca Meyer"
+author: "Sarah Rebecca Meyer"
 date: "2024-2025"
 output: 
   pdf_document:
@@ -124,6 +124,11 @@ if (!require(skimr)) {
   install.packages("skimr")
   library(skimr)
 }
+
+if (!require(rstudioapi)) {
+  install.packages("rstudioapi")
+  library(rstudioapi)
+}
 ```
 
 
@@ -140,8 +145,8 @@ tensorflow::set_random_seed(42)
 In the first step, we import the data from the CSV file:
 ```{r, results='hide'}
 # Importing CSV file into R
-getwd()
-data <- read.csv("../..//data/Dataset-part-2.csv", header = TRUE, sep = ",")
+setwd(dirname(getActiveDocumentContext()$path))
+data <- read.csv("Dataset-part-2.csv", header = TRUE, sep = ",")
 ```
 
 Then we have an outlook over the data:
@@ -781,7 +786,7 @@ cat("Imputed dataset exported to 'data_outlier_removed2.csv'")
 ### Feature Engineering
 This is the final version of the feature engineering that we used for the later steps. 
 ```{r}
-data_final <- read.csv("data_outlier_removed2.csv", header = TRUE, sep = ",")
+data_final <- read.csv("data_outlier_removed.csv", header = TRUE, sep = ",")
 
 data_final <- data_final %>%
   mutate(
@@ -2483,7 +2488,7 @@ model <- load_model('model.keras')
 ### Creating X and y
 We create X and y out of the data_final object to be able to evaluate our model.
 ```{r}
-data_final <- read.csv("data_outlier_removed2.csv", header = TRUE, sep = ",")
+data_final <- read.csv("data_outlier_removed.csv", header = TRUE, sep = ",")
 
 data_final <- data_final %>%
   mutate(
